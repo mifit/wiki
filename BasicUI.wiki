@@ -1,0 +1,13 @@
+#summary Basics of the MIFit User Interface
+
+= Launching MIFit =
+
+On computers with a Linux operating system, MIFit may be started from the command line by simply executing the MIFit program that is found in the top level of the MIFit installation directory. It is not necessary to set any environment variables to run MIFit. However if you intend to run CCP4 applications from MIFit, the environment settings for CCP4 should be established prior to launch.
+
+On computers with a Windows operating system, MIFit may be launched either by double-clicking on the MIFit desktop icon or by selecting All Programs/MIFit/MIFit from the Start menu.
+
+= Main Window =
+
+Starting MIFit launches a window like shown below. The intial window shows the usual menu and tool bars, as well as, docked views on the left and bottom sides. The Model view on the left contains a tree representation of the document and the Log view on the bottom displays log information output by the program. In tabs underneath each of these views are other views: Display for manipulation of atom labels and annotations, Jobs for managing automated jobs, Python for interactive scripting.
+
+http://mifit.googlecode.com/svn/wiki/basicUI.png
