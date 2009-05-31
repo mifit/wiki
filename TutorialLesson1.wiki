@@ -5,17 +5,17 @@
 This lesson introduces some of the mechanisms for controlling the view and representation of an atomic model.
 
   # Copy the file automation_out.pdb from the examples directory of your MIFit installation into a new directory.
-  # Select the _File/Open models, data, maps, etc..._ command to load a coordinate file in PDB format. Use the Look in pulldown menu in the resulting browser window to locate the file in the directory used for (1). Load the file (by clicking on it) and select Open. You should see the protein model appear in the main canvas window. 
-  # Try rotating the model by dragging the left mouse button in the canvas window.
+  # Select the _File/Open models, data, maps, etc..._ command to load a coordinate file in PDB format. Use the Look in pulldown menu in the resulting browser window to locate the file in the directory used for (1). Load the file (by clicking on it) and select Open. You should see the protein model appear in the main view. 
+  # Try rotating the model by dragging the left mouse button in the main view.
   # Try zooming in and out by dragging the left mouse button while holding down the Shift key. Dragging the left mouse button up zooms in and dragging the mouse button down zooms out.
-  # Try panning the model by dragging with right mouse button in the canvas window.
+  # Try panning the model by dragging with right mouse button in the main view.
   # Notice that if the cursor is positioned in the extreme top of the main canvas the function of the left mouse button changes so that dragging it left or right rotates the view about the Z-axis. The function of the right mouse button also changes so that it controls the slab.
-  # Try clicking on the slab icons in the tool bar to slab the canvas view in and out.
-  # Try re-centering the display by double-clicking on an atom in the main canvas.
-  # Try centering on a residue by double-clicking on an amino acid in the Residues: section of the navigation tree on the left.
-  # Try centering on a residue by entering a chain-id, residue name pair (say, ‘X 35’) in the _Go to residue_ parameter box at the top of the navigation tree on the left.
-  # Try single-clicking on an atom in the main canvas. Notice that this atom is placed in the stack in the lower left of the canvas. The stack is used to identify targets for commands that operate on specific atoms or residues.
-  # Try coloring a residue by clicking on a residue and then clicking on the  button and selecting the _Color Last Picked Residue_ option. In the resulting dialog box select a color by clicking on it and then use the Method pulldown menu to select to ‘All atoms’. When you select OK you should see the color of all atoms in the selected residue change. Try some of the other color options. You can also perform most of the same commands from the Render/Color options.
+  # Try clicking on the slab icons in the tool bar to slab the main view in and out.
+  # Try re-centering the display by double-clicking on an atom in the main view.
+  # Try centering on a residue by clicking on an amino acid in the _Residues List_ section of the _Models_ view.
+  # Try centering on a residue by entering a chain-id, residue name pair (for example, ‘X 35’) in the _Go to residue_ parameter box at the top of the _Models_ view.
+  # Try clicking on an atom in the main canvas. Notice that this atom is placed in the stack in the lower left of the canvas. The stack is used to identify targets for commands that operate on specific atoms or residues.
+  # Try coloring a residue by clicking on a residue and then clicking on the  button and selecting the _Color Last Picked Residue_ option. In the resulting dialog box select a color by clicking on it and then use the Method pulldown menu to select to _All atoms_. When you select OK you should see the color of all atoms in the selected residue change. Try some of the other color options. You can also perform most of the same commands from the _Render/Color_ options.
   # Try changing the rendering style by selecting the different options from the Render pull down menu. Many people prefer to use the Sticks option for speed and simplicity when model fitting.
   # Try the command _Viewpoint/Center model on screen_ to zoom and slab the model automatically to fill the screen.
   # Try changing the model to a backbone only representation by selecting the _Show/Backbone/Show backbone as CA_ trace and the _Show/Sidechains/Hide sidechain atoms_ commands. You should now see only connected CA atoms of each residue (and any ligands or prosthetic groups, if they were present). It is simpler to see the overall fold of the protein in this representation
