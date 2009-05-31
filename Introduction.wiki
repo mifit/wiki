@@ -1,3 +1,5 @@
+#summary Introduction to MIFit
+
 = Introduction =
 
 MIFit (pronounced em-ī-fit) is a molecular graphics program for protein crystal structure determination that runs on Windows and Linux operating systems. Besides capabilities for model-building and protein structure display, MIFit also provides interfaces that apply third-party crystallographic software (d*TREK, the CCP4 suite and SHELX) for image data processing, SAD phasing, molecular replacement and refinement. These crystallographic applications are managed by a program called MIExpert. A particular focus of the MIFit/MIExpert software is the efficient solution and analysis of protein:ligand complexes.
