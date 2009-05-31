@@ -1,0 +1,12 @@
+= Introduction =
+
+MIFit (pronounced em-ī-fit) is a molecular graphics program for protein crystal structure determination that runs on Windows and Linux operating systems. Besides capabilities for model-building and protein structure display, MIFit also provides interfaces that apply third-party crystallographic software (d*TREK, the CCP4 suite and SHELX) for image data processing, SAD phasing, molecular replacement and refinement. These crystallographic applications are managed by a program called MIExpert. A particular focus of the MIFit/MIExpert software is the efficient solution and analysis of protein:ligand complexes.
+
+= Acknowledgements =
+
+MIFit has been possible through the efforts of many people throughout its history, in particular, Duncan McRee, Russ Athay, John Badger, Jon Christopher, and Paul Collins.
+
+The automated error checking capabilities used by MIFit’s automated refinement script employs probability data on phi-psi distributions provided by the Richardson laboratory (Lovell et al., Proteins 50:437-450, 2003).
+
+The data for the SAD phasing tutorial was supplied by Aiping Dong (Structural Genomics Consortium, University of Toronto) and corresponds to PDB entry 2AZP.
+Many of the structures and data sets used in the tutorials were obtained from the Protein Data Bank (www.rcsb.org).
