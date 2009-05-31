@@ -9,7 +9,7 @@ This lesson introduces some of the mechanisms for controlling the view and repre
   # Try rotating the model by dragging the left mouse button in the canvas window.
   # Try zooming in and out by dragging the left mouse button while holding down the Shift key. Dragging the left mouse button up zooms in and dragging the mouse button down zooms out.
   # Try panning the model by dragging with right mouse button in the canvas window.
-  # Notice that if the cursor is positioned in the extreme top of the main canvas the function of the left mouse button changes so that dragging it left or right rotates the view about the Z-axis. The function of the right mouse button also changes so that it controls the slab.
+  # Notice that if the cursor is positioned in the extreme top of the main canvas the function of the left mouse button changes so that dragging it left or right rotates the view about the Z-axis. The function of the right mouse button also changes so that it dollies the model in and out.
   # Try clicking on the slab icons in the tool bar to slab the canvas view in and out.
   # Try re-centering the display by double-clicking on an atom in the main canvas.
   # Try centering on a residue by double-clicking on an amino acid in the Residues: section of the navigation tree on the left.
