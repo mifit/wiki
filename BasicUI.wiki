@@ -11,3 +11,18 @@ On computers with a Windows operating system, MIFit may be launched either by do
 Starting MIFit launches a window like shown below. The intial window shows the usual menu and tool bars, as well as, docked views on the left and bottom sides. The Model view on the left contains a tree representation of the document and the Log view on the bottom displays log information output by the program. In tabs underneath each of these views are other views: Display for manipulation of atom labels and annotations, Jobs for managing automated jobs, Python for interactive scripting.
 
 http://mifit.googlecode.com/svn/wiki/basicUI.png
+
+= Opening model, diffraction data and map files =
+
+A document that already exists may be opened using the _File/Open models, data, maps, etc…_ command (keyboard shortcut _Ctrl+O_). This command is used to load structure data from session (.mlw) or coordinate (.pdb) files. Files associated with atomic models that have been the subject of recent work are also kept in a history list displayed in the File menu.
+
+A group of files can be opened at once using the open command. Holding down Ctrl or Shift allows multiple selections. When a group of coordinate files are loaded together they are automatically color-coded if the _File/Preferences…_ setting _Incrementally color additional models_ is checked. An additional setting _Render/Dim Non-active Models_ may be deselected in order to view all models with equal visibility.
+
+Diffraction data files and pre-computed electron density maps in the CCP4 or XtalView formats are also loaded into MIFit with the _File/Open models, data, maps, etc…_ command.
+
+= Creating a new document =
+
+A new MIFit document may be created with the _File/New…_ command (keyboard shortcut _Ctrl+N_). The _File/Open models, data, maps, etc…_ may then be used to add content to the current document. To open files in a different document, use _File/Open into new document…_ command.
+
+Under the Windows operating system, individual document windows may be cascaded, tiled vertically or tiled horizontally. Under the Linux operating system, each document window always covers the whole document area and has a tab attached at the top. Clicking on the tab of a document brings its window to the top. The Windows version of MIFit contains an additional Window menu with which the arrangement of the document window may be controlled.
+
