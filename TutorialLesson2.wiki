@@ -1,6 +1,6 @@
 #summary Tutorial Lesson: Loading and changing electron density map displays
 
-= Tutorial Lesson: Loading and changing electron density map displays
+= Tutorial Lesson: Loading and changing electron density map displays =
 
 This lesson introduces some of the mechanisms for loading and adjusting the display of electron density maps.
 
