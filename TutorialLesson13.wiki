@@ -1,0 +1,18 @@
+#summary Tutorial Lesson: Automated ligand density docking
+
+= Tutorial Lesson: Automated ligand density docking =
+
+Scenario: You have an almost completely refined structure and now wish to add and fit a ligand to residual density within the target site.
+
+  # Copy the files _ligand'_'example.pdb_, _ligand'_'example.mtz_ and _ligand'_'example.smi_ from the examples directory of your MIFit installation into a new directory. File _ligand.pdb_ is the parent protein model, file _ligand'_'example.mtz_ contains data from the last cycles of refinement in MTZ format and file _ligand_example.smi_ contains a SMILES string corresponding to the ligand that is to be fit.
+  # To establish the ligand parameters select the *Dictionary/Import Ligand/Smiles* command. With the *File* option toggled on, use the *Browse...* button to select file ligand_example.smi from the dictionary defined in (1). Enter a three character code (for example, LIG) as the ID Code (3 letters) parameter. Click on *OK*. You should see the *Ligand Dictionary Editor* appear.
+  # If you like, you can confirm that the ligand restraints were correctly defined (see Chapter 6). Click on *Save and Exit* to load the ligand into the dictionary.
+  # Next, load the protein model and map using the *File/Open models, data, maps, etc...* dialog box to locate file _ligand'_'example.pdb_ and _ligand'_'example.mtz_ from (1). In the *Phase file import* dialog, uncheck the first map settings since this example only requires the difference map using the *DELFWT* and *PHDELFWT* columns.
+  # Use the left (rotate) and right (translate) mouse buttons to make sure that the large density feature near residue A 163 is centered on the cross hairs. 
+  # To add the ligand to the map select the *Model/Add residue* command. Use the *Residue Type* pulldown to select the LIG entity. Select _End of Model_ for the *Insert Position* parameter. Make sure that _Screen Center_ is toggled on for the *Put At* parameter. You may enter a new chain-id _W_ in the *Chain-id* field. Select *OK* to add the ligand to the model.
+  # Click on any atom in the ligand and select Fit/Fit Residue. Alternatively you may use the keyboard shortcut f. You should see the ligand turn green, indicating that it is active.
+  # Select the Refine/Find Ligand Fit and Conformer command to automatically fit the ligand. The ligand docking search will continue until the maximum number of trials is reached or a sufficiently good fit is established. At the completion of this process a good fit of the ligand will usually be obtained. Since this search starts from a randomized starting point, fully reproducible results are not obtained on every run and occasionally the search will result in a plausible misfit.
+  # You may sometimes be able to optimize the fit by selecting the Refine/Rigid-Body Refine Current Atoms option. If just one or two torsion groups are incorrect then they may be fixed by clicking on the both defining the torsion group near the moveable atoms and rotating around that bond with the right mouse button. 
+  # Once you have achieved a satisfactory fit you may accept the fit by clicking on the  icon from the toolbar.
+  # Ligand fits may also be optimized using real-space refinement. Click an atom on the ligand and then select Refine/Refine Residue. The ligand color will change to blue to indicate that it is active for refinement. Hold down the space bar to refine the ligand to convergence. Select Refine/Accept Refine to accept the optimized solution.
+  # You may select File/Close or File/Exit to close this session or shut down MIFit.
