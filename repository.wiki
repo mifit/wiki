@@ -1,3 +1,4 @@
+#summary Source code repository access
 
 = Source code repository =
 
