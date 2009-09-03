@@ -1,4 +1,3 @@
-#summary Source code repository.
 
 = Source code repository =
 
