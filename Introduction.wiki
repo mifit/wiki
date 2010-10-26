@@ -1,16 +1,17 @@
 #summary Introduction to MIFit
 
-= Introduction =
+= About MIFit and MIExpert =
 
-MIFit (pronounced em-ī-fit) is a molecular graphics program for protein crystal structure determination that runs on Windows and Linux operating systems. Besides capabilities for model-building and protein structure display, MIFit also provides interfaces that apply third-party crystallographic software (d*TREK, the CCP4 suite and SHELX) for image data processing, SAD phasing, molecular replacement and refinement. These crystallographic applications are managed by a program called MIExpert. A particular focus of the MIFit/MIExpert software is the efficient solution and analysis of protein:ligand complexes.
+MIFit (pronounced em-ī-fit) is an Open Source molecular graphics program for protein crystal structure determination that currently runs on Windows and Linux operating systems.
 
-Rather than updating the MIFit manual for version 9. This wiki has been started instead. Hopefully, community comments and contributions will help improve the documentation beyond what a simple manual would contain.
+MIExpert is suite of python driver scripts and interfaces that manage common crystallographic structure determination tasks, primarily using the CCP4 software suite. The MIExpert interfaces are configured and exposed through MIFit.
+
+The MIFit/MIExpert system is particularly well suited for personal crystallographic computing on laptop computers. An application focus of the software is the efficient solution and analysis of multiple related structures.
 
 = Acknowledgements =
 
-MIFit has been possible through the efforts of many people throughout its history, in particular, Duncan McRee, Russ Athay, John Badger, Jon Christopher, and Paul Collins.
+MIFit has been made possible through the efforts of many people throughout its history, in particular, Duncan McRee, Russ Athay, John Badger, Keith Burdick, Jon Christopher, Paul Collins, Bradley Smith and Mark Israel. MIFit/MIExpert was originally developed with support from the Automatic Structure Consortium.
 
-The automated error checking capabilities used by MIFit’s automated refinement script employs probability data on phi-psi distributions provided by the Richardson laboratory (Lovell et al., Proteins 50:437-450, 2003).
+The automated error checking capabilities in the MIExpert refinement script employ probability data on phi-psi distributions provided by the Richardson laboratory (Lovell _et al_., Proteins *50*:437-450, 2003).
 
-The data for the SAD phasing tutorial was supplied by Aiping Dong (Structural Genomics Consortium, University of Toronto) and corresponds to PDB entry 2AZP.
-Many of the structures and data sets used in the tutorials were obtained from the Protein Data Bank (www.rcsb.org).
+The example data for SAD phasing was supplied by Aiping Dong (Structural Genomics Consortium, University of Toronto) and corresponds to PDB entry 2AZP. Many of the structures and data sets used in the tutorials were obtained from the Protein Data Bank (www.rcsb.org).
