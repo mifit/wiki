@@ -1,6 +1,6 @@
-#summary Tutorial Lesson: SAD phasing
+#summary Tutorial Lesson: Chain tracing
 
-= Tutorial Lesson: SAD phasing =
+= Tutorial Lesson: Chain tracing =
 
 
 _Scenario: You have just obtained an electron density map and wish to build a model into the electron density. (Note: automated model-fitting programs are now usually used to build initial models into experimentally phased map. In other cases, molecular replacement methods are used to obtain an approximate model. In both these situations the manual building process is often limited to tracing loops and model correction.) _
