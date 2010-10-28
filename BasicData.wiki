@@ -1,0 +1,1528 @@
+#summary Basics of loading coordinate and diffraction or density map data 
+
+= Coordinate and map files =
+
+This chapter describes the process of loading coordinate and diffraction or density map data into MIFit.
+
+*2.1 Loading coordinate data*
+
+Atomic coordinate data may be loaded into MIFit using the *File/Open models, data, maps, etc *command. This command opens a browser window from which you may select the coordinate file that you wish to load. Coordinate data may be loaded in PDB format _(*.pdb_) or MIFit session file (_*.mlw_) format. Once selected, the coordinate data is immediately loaded and displayed.
+
+*2.2 Navigating coordinate data from the tree view*
+
+http://mifit.googlecode.com/svn/wiki/images/image012.jpg
+
+Figure 2.1 MIFit after loading a model
+
+When set to the Models tab, three panes on the left of the MIFit interface (*Models List*, *Residues List*, *Atoms List*) are the tree control for managing and navigating around models. There may be one or more leaves for individual models in the top pane. Each structure model is subdivided into chains and segments in the *Residues List* and each residue is divided into atoms in the *Atoms List*.
+
+A double mouse click on a residue in the tree control will center the view in the main canvas on that residue. A double mouse click on an atom in the tree control will center the view in the main canvas on that atom.
+
+Alternatively, the *Go to residue *text box may be used to enter a chain id and residue number pair so as to center the canvas view on the selected residue. If a chain id is omitted the structure will center on the first residue number in the structure that matches the content of the text box. The icon next to the *GoTo *button is normally toggled on to synchronize the canvas view with selection.
+
+*2.3 Navigating coordinate data from the main canvas*
+
+When the mouse pointer rests over an atom in the main canvas, information about this atom is displayed in the status bar at the very bottom of the MIFit interface. For example, the text CYS 123 CA (12.345 23.456 34.567) Occ=1.00 B=12.3 is displayed for the CA atom from amino acid 123 cysteine at position 12.345 23.456 34.567, with unit occupancy and a temperature factor of 12.3^2^.
+
+When an atom in the canvas is clicked with the left mouse button this atom is put on a stack. A label of the form GLU 123 A CB is shown to the right of the atom and the message area in the lower left corner of the canvas pane will displays 1: GLU 123 CB. The stack may contain many atoms but the message area explicitly lists up to four of them with an additional line providing the number of any additional atoms, for example as, + 12 more. The top of the atom stack may be cleared with the menu item sequence *Show/Stack/Clear top item *and the entire stack may be cleared with menu item sequence *Show/Stack/Clear stack*. Atomic labels and information in the message area may be erased with commands *Show/Labels/Clear Labels *or *Show/Canvas/Clear Message *respectively.
+
+*2.4 Loading electron density data*
+
+Once a coordinate data set is loaded MIFit may be used as a molecular structure viewer. However, for crystallographic model fitting we also need to load and display an electron density map. Data for the calculation of electron density maps may be loaded into the document using the *File/Open models, data, maps, etc *command.
+
+After loading a diffraction data files MIFit will calculate electron density maps via Fast Fourier Transforms. This mode of operation is often preferred to reading pre-computed maps because diffraction data files require much less disk space than map files. Furthermore, calculating electron density maps within MIFit is a more flexible approach because the user may easily change the map resolution or alter the grid spacing of the map display.
+
+The currently supported diffraction data formats are the XtalView format (_.phs_), the SHELX format (_.fcf_), the CCP4 MTZ format (_.mtz_), and the mmCIF format (_.cif_). It should be noted that many different types of data are stored in mmCIF files  obviously, the data for this particular application should be structure factors.
+
+The diffraction data format that is most commonly used and the main input data format for automated structure solution and refinement processes is the MTZ format. When data is loaded in this format the cell and space group information encoded in the file header are automatically assigned. A dialog window appears that allows the selection of density map types and the assignment of MTZ data labels to established data types (Fo, Fc, etc).
+
+The pull down menu for the *Map Type *parameter allows the user to select for the calculation of various standard types of electron density maps. The available map types include various types of difference and SigmaA weighted maps. MIFit attempts to infer the correct labels for different categories of MTZ file data but the pull down menus to the right of each data field may be used to reassign data types to other MTZ column labels.
+
+The resolution defaults (*Max Resolution *and *Min Resolution *parameters) are taken from the data limits of the data.
+
+Setting the *Grid size *parameter to Medium grid is appropriate for most model fitting work; a finer grid gives a smoother appearance and may give better images for presentation graphics, particularly with low resolution data.
+
+After clicking on *OK*, the specified map is calculated and displayed in the canvas window.
+
+When reading map data directly, MIFit requires that the map is in ether the CCP4 or XtalView (FSFOUR) binary map format. There are a few situations where using pre-calculated maps is more appropriate than importing diffraction data. For example, a map may have been modified in real space by operations that are not easily reflected in reciprocal space and have no corresponding equivalent within the framework of MIFit.
+
+*2.5 Map calculation from REFMAC5 output files*
+
+When a structure is being refined by CCP4/REFMAC5, it is convenient and usually best to use the pre-computed density map coefficients in the output MTZ file for subsequent map calculations. Electron density maps computed using these likelihood weighted coefficients show less bias and more detail than most other map types.
+
+http://mifit.googlecode.com/svn/wiki/images/image014.jpg
+
+Figure 2.2 Map calculation dialog box after entry of a CCP4/REFMAC5 output file
+
+By default, the CCP4/REFMAC5 program writes MTZ files containing pre-computed likelihood weighted Fourier coefficients FWT, PHWT and DELFWT, PHDELFWT for the calculation of normal and difference maps respectively. MIFit will identify this special case and populate the *Map Type *fields with the *Direct FFT *option in order to facilitate convenient calculation of both normal and difference maps from these Fourier coefficients.
+
+Note: It is inadvisable to allow MIFit to use the F,,calc,, values from CCP4/REFMAC5 due to the potential need for additional rescaling on to the F,,o,, values. It is safer to use either the pre-computed map coefficients as described above or re-compute the F,,calc ,,and Phase values from a model by selecting 'Model 1' for the Fc parameter. In the latter case it should also be noted that CCP4/REFMAC5 provides a more sophisticated treatment of solvent scattering and anisotropy than the internal scaling within the MIFit program.
+
+*2.5 Controlling the map display*
+
+Once loaded, the electron density map display may be modified by a right mouse click on the icon for the map file in the *Models List* tree and selection of the *Contour options *command.
+
+http://mifit.googlecode.com/svn/wiki/images/image016.jpg
+
+Figure 2.3 Dialog box for changing the map display settings
+
+In the resulting dialog box the *Method *and *Radius *parameters control the volume of electron density that is displayed. The *Method *parameter may be used to select whether the map will be displayed as a *Box* or *Sphere* around a selected point. Depending on the number of contour lines displayed, the fitting operation that is to be performed and the speed of the computer, it is usual to set a map display radius in the range 10-15.
+
+
+
+The *Blob Method *is used to display electron density only within the *Blob Distance *of selected residues. The selection of target residues is by the same methods that are used for model fitting (for example, selection options under the *Fit *pull down menu) and the blob parameters are inactive unless such a selection has been made. The blob option is used for creating presentation graphics but should be applied with caution; there is a fine distinction between omitting density for clarity and eliminating surrounding map noise so as to mislead an audience into thinking that the map quality is better than it really is.
+
+
+
+The *Preset Map Styles *pull down menu allows selection of a map display style from a set of standard contour level, colors and map types. Maps calculated within MIFit are scaled so that one sigma (the root-mean-square density fluctuation in the map) equals 50 internal map units. Therefore the default contour levels for a normal map (50, 100, 150 ...) correspond to density levels at 1, 2, 3, 4 ,5 sigma.
+
+The *Show *checkboxes may be used to eliminate some of the contour levels from the display. It will often be the case that a map appears cluttered by too many contour surfaces and some of them can be switched off with these options. Often it is useful to display every other contour level (_i.e._ retaining the 50, 150, 250 levels).
+
+The *Color *options may be used to change the color of an individual contour surface from the default colors associated with the *Preset map styles* selection.
+
+The *Map line width *parameter may be used to change the line width used in the map display. For interactive fitting a line width of 1 is usually the most appropriate but it may be useful to display thicker lines when exporting images for journal graphics or when using projection to provide an interactive presentation.
+
+*2.6 Moving around an electron density map*
+
+MIFit automatically re-computes the display of the electron density map when the display is re-centered on a new atom or is translated by more than a few angstroms. Full crystal symmetry information is imposed on the map so there are no issues with moving outside a pre-computed map volume. Occasionally, the *Viewpoint/Center Visible Density *command may be useful to re-center the displayed density to lie in the center of the main canvas.
+
+In order to locate significant density features that are not accounted for by the current model, a right mouse click on the relevant difference map icon in the *Models* *List* tree provides the *Find Ligand Density *option. This tool is parameterized to search electron density difference maps for relatively large density blobs (_i.e._ not features that could normally be accounted for by ordered water molecules). Putative ligand densities found by this tool are parameterized by a closely packed set of pseudo-atoms and may be picked as CLUST objects from the MIFit document tree. The larger clusters in this list correspond to the most extensive density features. If no CLUST objects appear in the document tree after executing this command then no density blobs were sufficiently extended to qualify as ligand densities.
+
+*3 Menus and toolbars*
+
+There are several ways in which a user may interact with MIFit:
+
+ via keyboard shortcuts
+
+ via menu items
+
+ via toolbar items
+
+Keyboard shortcuts are discussed in Chapter 4. In this chapter we discuss and compare menu and toolbar items. Not all menu items have equivalent toolbar items but essentially all toolbar items have equivalents from amongst the menu items.
+
+In addition, a right mouse click in the main or navigator canvas areas makes a context menu available. This menu contains frequently used menu items that are otherwise distributed among several main menus.
+
+*3.1 Startup menu / toolbar*
+
+http://mifit.googlecode.com/svn/wiki/images/image018.gif
+* File/New *Create a new structure document
+
+http://mifit.googlecode.com/svn/wiki/images/image020.gif
+* File/Open models, data, maps, etc *Open an existing structure document
+
+http://mifit.googlecode.com/svn/wiki/images/image022.gif
+* File/Save Session, File/Save Session As *Save a structure document
+
+http://mifit.googlecode.com/svn/wiki/images/image024.gif
+* File/Print *Print the canvas
+
+http://mifit.googlecode.com/svn/wiki/images/image026.gif
+* File/Copy Canvas *Copy the canvas to the clipboard
+
+(Windows only)**
+
+Table 3.1 Menu and toolbar items available at startup
+
+Table 3.1 shows the toolbar items and their menu item equivalents that are available when MIFit is first started. The *File/Save Session*, *File/Save Session As *and *File/Print *menu items are initially inactive.
+
+*3.2 General menu / toolbar*
+
+Once an existing structure document has been opened or a new structure document been created, the menu and the toolbar expand to contain more items. Table 3.2 shows the additional toolbar items and their menu equivalents. These additional toolbar items are appended to the items listed in Table 3.1. The additional menu bar items are inserted between the *File* and *Help* pull down menu bar items on Linux systems and between the *File* and *Window* pull down menu bar items on Windows systems.
+
+http://mifit.googlecode.com/svn/wiki/images/image028.gif
+ *Show/Annotation/Add annotation to model* Add annotation at canvas center
+
+http://mifit.googlecode.com/svn/wiki/images/image030.gif
+ *Model/Checkpoint Model* Save model state in PDB format file
+
+http://mifit.googlecode.com/svn/wiki/images/image032.gif
+ *Viewpoint/Slab In *Decrease display depth in z-direction
+
+http://mifit.googlecode.com/svn/wiki/images/image034.gif
+ *Viewpoint/Slab Out *Increase display depth in z-direction
+
+http://mifit.googlecode.com/svn/wiki/images/image036.gif
+ *Viewpoint/Zoom Out* Zoom out to expand view of model
+
+http://mifit.googlecode.com/svn/wiki/images/image038.gif
+ *Viewpoint/Zoom In *Zoom in to shrink view of model
+
+http://mifit.googlecode.com/svn/wiki/images/image040.gif
+ *Viewpoint/Top View* Display view down z-axis
+
+http://mifit.googlecode.com/svn/wiki/images/image042.gif
+ *Viewpoint/Rotate View +90* Rotate about y by +90
+
+http://mifit.googlecode.com/svn/wiki/images/image044.gif
+ *Viewpoint/Rotate View -90 *Rotate about y by -90
+
+http://mifit.googlecode.com/svn/wiki/images/image046.gif
+ *Viewpoint/Decrease Perspective *Decrease canvas perspective
+
+http://mifit.googlecode.com/svn/wiki/images/image048.gif
+ *Viewpoint/Increase Perspective* Increase canvas perspective
+
+Table 3.2 General toolbar items and their menu equivalents
+
+*3.3 Modeling menu / toolbar*
+
+The items in the modeling portion of the toolbar are initially active. When an atom is selected in the canvas with a mouse click, the *Fit Residue *option becomes active. When this item is activated or when the *Fit/Fit Residue *command is selected all the *Fit *items except for *Fit/Torsion *are activated. The *Fit/Torsion *option becomes active when a bond defining a torsion angle has been selected.
+
+http://mifit.googlecode.com/svn/wiki/images/image050.gif
+ *Fit/Fit Residue* Fit residue containing top-of-stack atoms
+
+http://mifit.googlecode.com/svn/wiki/images/image052.gif
+ *Fit/Apply*   Apply modifications to selected residue(s)
+
+http://mifit.googlecode.com/svn/wiki/images/image054.gif
+ *Fit/Cancel*  Cancel all modifications
+
+http://mifit.googlecode.com/svn/wiki/images/image056.gif
+ *Fit/Translate*  Switch to translating selected residue(s)
+
+http://mifit.googlecode.com/svn/wiki/images/image058.gif
+ *Fit/Rotate*  Switch to rotating selected residue(s)
+
+http://mifit.googlecode.com/svn/wiki/images/image060.gif
+ *Fit/Torsion* Apply torsion motion to selection
+
+http://mifit.googlecode.com/svn/wiki/images/image062.gif
+ *Fit/Center* Right mouse button pans viewpoint
+
+Table 3.2 Modeling toolbar items
+
+When the model is modified and the *Fit/Accept Fit *command is selected the *Save file *toolbar item and the analogous menu items *File/Save Session *and *File/Save Session As *become active.
+
+*3.4 Display menu / toolbar*
+
+http://mifit.googlecode.com/svn/wiki/images/image064.gif
+ *Render/Color*  Color Tool
+
+http://mifit.googlecode.com/svn/wiki/images/image066.gif *Show/Atoms or Show/Residues* Show Tool
+
+http://mifit.googlecode.com/svn/wiki/images/image068.gif *Show/Sidechains* Show Side chain Tool
+
+http://mifit.googlecode.com/svn/wiki/images/image070.gif *Show/Atoms or Show/Residues* Hide Tool
+
+Table 3.4 Display toolbar items
+
+Color selection capabilities may be accessed with the *Render/Color *menu options or with the *Color Tool *toolbar item.
+
+*4 Keyboard shortcuts*
+
+Numerous keyboard shortcuts are available within the MIFit software in order to provide efficient control over document handling, model display and model fitting. Once the shortcuts have been learned, many common operations can be accessed much more rapidly than through the MIFit menus or toolbar.
+
+The tables in this chapter list the keyboard shortcuts that are currently available in MIFit. The notation / is used to indicate two shortcuts that usually have opposite actions. The notation Shift+ indicates simultaneous selection of the Shift key with the following key. The notation Ctrl+ indicates simultaneous selection of the Ctrl key with the following key. Similarly, the notation Alt+ indicates simultaneous selection of the Alt key with the following key.
+
+*4.1 Keyboard shortcuts for document handling*
+
+*Ctrl+N File/New* Create a new structure document
+
+*Ctrl+O File/Open models, data, maps, etc...* Open an existing structure document
+
+*Alt+X Exit* Terminates program
+
+Table 4.1 Keyboard shortcuts associated with menu and toolbar items
+
+*4.2 Keyboard shortcuts for display*
+
+*X* View along x-axis (from origin)
+
+*Y* View along y-axis (from origin)
+
+*Z* View along z-axis (from origin)
+
+*Left/Right* Rotate left/right about y-axis
+
+*Up/Down* Rotate up/down about x-axis
+
+*Shift+I/Shift+O* Slab in/Slab out (along z-axis)
+
+*I/O* Zoom in/Zoom out
+
+Table 4.2 Keyboard shortcuts controlling model display
+
+The notations *Left/Right/Up/Down *refer to the arrow cursor keys.
+
+*4.3 Keyboard shortcuts for stereo viewing*
+
+MIFit currently supports side-by-side stereo and also contains a full screen mode (*ESC *keyboard shortcut) that allows the canvas to be expanded to fill the entire monitor screen.
+
+The side-by-side stereo display splits the canvas into a left and right half and displays the left/right eye image in the left/right half respectively. The default stereo display is straight-eye rather than cross-eye stereo. Side-by-side stereo display may also be con-trolled with the menu command *Viewpoint/Stereo*.
+
+*|* Toggle stereo
+
+*A / S* Decrease / Increase stereo angle
+
+*Shift+A / Shift+S* Decrease / Increase stereo angle
+
+*Ctrl+Shift+S* Toggle cross-eyed to wall-eyed stereo
+
+*Q / W* Decrease / Increase stereo separation for the Dictionary Editor
+
+*X* Toggle cross-eyed to wall-eyed stereo for the Dictionary Editor
+
+Table 4.3 Keyboard shortcuts for altering the software stereo settings
+
+Use of hardware stereo requires a quad-buffered video card, CRT monitor, and LCD shutter glasses. If the hardware is available, this form of stereo may be activated using the *Viewpoint/Use Hardware Stereo *command.
+
+*4.4 Keyboard shortcuts for model fitting*
+
+Most of the model-building shortcuts are only active while fitting the model, _i.e._ when one or more residues are selected for modification.
+
+*[| PageUp* Go to N-terminus of chain
+
+*]| PageDown* Go to C-terminus of chain
+
+&lt;/&gt; Insert MRK residue before / after present residue
+
+*Space* Go to next residue
+
+*B* Go to previous residue
+
+*;* Apply fit/ Accept refinement
+
+*C* Select next conformer (side chain)
+
+*D* Delete residue
+
+*F* Fit residue
+
+*R* Replace and fit residue (side chain refitting)
+
+*Ctrl+R* Refine residue
+
+*Shift+W* Add water molecule at cursor center
+
+*Delete* Delete atom
+
+*1/2/.../5* Select χ1, χ2,..,χ5 side chain torsion angle
+
+Table 4.4 Keyboard shortcuts that are active during model fitting
+
+*5 Model building and refitting*
+
+
+
+MIFit contains a complete set of tools for building protein models into electron density maps. Capabilities include baton style Cα chain-tracing, conversion of Cα-traces to poly-alanine chain segments, the application of pentamer libraries to refit main chain atoms, convenient side chain mutation and density refitting, automated and manual water picking, ligand placement and adjustment.
+
+*5.1 Chain tracing*
+
+Most structure models are either built into experimentally phased electron density maps using automated procedures (for example, arp/wARP) or were derived from molecular replacement searches. In these scenarios the starting point for interactive model building is a model that is largely complete but where it is necessary to manually trace some portions of the map that were either not fit by these methods or were misfit.
+
+The option to provide smart baton-style placement of Cα markers (residue type MRK) is available via the *Model/Add MRK Before *and the *Model/Add MRK After *commands. Convenient key-board short cuts equivalent to these commands are &lt; and &gt;. The function of these commands is to predict (based on density and geometric constraints) and add a Cα atom either before or after the current Cα atom. If the predicted position appears to be incorrect then the right mouse button may be used to adjust the new Cα site at fixed distance of 3.8 from the previous Cα.
+
+The *Fit/Accept Fit *command may be used to accept the current set of positions and cancel the chain tracing.
+
+Selection of the end points of the sequence of MRK points followed by selection of the *Model/Poly-ALA Range command *will convert the Cα trace to a polyalanine trace. Alternatively, if the entire chain consists of MRK points, the *Model/Poly-ALA Chain *command may be used to carry out the conversion to a full atom representation of the chain trace. The accuracy of the polyalanine trace depends on the accuracy of the Cα placement. The endpoints of the trace tend to be the least reliable because the atomic positions are less constrained than those in the central region. In the absence of a following residue, the positions of atoms in the C-terminal amino acid are not fully defined so this amino acid remains a MRK residue.
+
+*5.2 Adding and removing individual residues*
+
+http://mifit.googlecode.com/svn/wiki/images/image072.jpg
+
+Figure 5.1 Menu for adding a new residue to extend a chain or to add a ligand entity
+
+The *Model/Add residue *command may be used to add new entities to the model. The pull down menu corresponding to the *Residue Type *parameter in the resulting dialog box is used to specify the type of entity that is to be added to the model. The *Insert Position *options describe where in the coordinate set the new entity will be placed. The *Chain id *parameter box may be filled if you wish to set a new chain id for the inserted residue. (This *Chain id* option is not normally used for protein model building but may be useful for adding ligands.)
+
+The *Put At *options may be used to simply add the new residue at the screen center, extend an existing chain in *Alpha helix *or *Beta sheet *conformation or extend the existing chain with *Best Fit *of the new residue to the electron density.
+
+The *Model/Delete residue *(keyboard shortcut *D*) may be used to remove a selected entity from the structure, _i.e._ after using this command the entity disappears from both the graphics display and the tree control and is no longer a part of the model.
+
+The *Model/Rename residue *may be used to change the residue number for an individual entity.
+
+The *Model/Delete atom *command (keyboard shortcut *Delete*) may be used to delete an individual atom from the structure _i.e._ the last atom selected from the canvas disappears from the canvas display and the tree control and is no longer part of the model. This command is mostly useful for pruning disordered side chains.
+
+*5.3 Refitting backbone atoms*
+
+The MIFit software contains commands to check and refit protein backbones based on comparison with a pentamer fragment library. A tool is also available for flipping individual amino acids so that the carbonyl oxygen is rotated about the peptide plane.
+
+To employ the pentamer library the user must select an atom from the model displayed in the main canvas. After selecting the *Fit/Fix Backbone/Suggest Backbone Match *command the pentamer that best fits the current structure will be displayed in purple in the main canvas. The first Cα in the pentamer will belong to the amino acid associated with the selected atom.
+
+Portions of the protein backbone that overlap the pentamer may be adjusted to improve the match using the *Fit/Fix Backbone *commands *Replace Middle 3*, *Replace First 4*, *Replace Last 4 *or *Replace All 5*. If none of these commands appears to be useful then the *Fit/Fix Backbone/Clear Backbone Match *command may be used to eliminate the pentamer from the display and the tree control.
+
+To flip an individual peptide the user should click on an atom in the peptide plane and then select the *Fit/Fix Backbone/Flip Peptide *command. The peptide will then be observed to rotate so that the carbonyl atom appears on the opposite side of the peptide plane.
+
+*5.4 Refitting and changing side chains*
+
+http://mifit.googlecode.com/svn/wiki/images/image074.jpg
+
+Figure 5.2 Menu for mutating residues
+
+Side chain groups may be changed from one type to another by selecting an atom in the main canvas and then using the *Model/Replace residue *command. The action of this command is simply to mutate one amino acid type to another without reference to any electron density map. After selecting this command a dialog window appears from which the new amino acid type may be selected.
+
+An extremely useful command for both model building and model correction (_i.e._ adjusting the position of a side chain to improve the fit to the electron density) is the *Model/Replace and Fit *command. This command also generates a dialog selection for mutating an amino acid, with default value set to the original amino acid type. The action of this command is to replace the amino acid side chain but also to make the best fit to the electron density. An alternative method for selecting this command is the keyboard shortcut r. The proposed fit (with the amino acid remaining colored green to indicate that it is still live) may be accepted or rejected using the green check or red cross toolbar icons.
+
+It is also possible to cycle through the possible preferred conformers for a particular amino acid type by first selecting an atom in the main canvas and then using either the *Model/Next Conformer *command or the keyboard shortcut c.
+
+A fitting method that allows arbitrary interactive adjustment of side chain torsion angles is to select the amino acid and then choose either the *Fit/Fit residue *command or the keyboard shortcut f. The numeric keyboard keys (1, 2 ) may then be used to select a torsion angle (χ1, χ2 ) for rotation. A grey arrow appears on the screen to indicate the selected torsion and the right-mouse button controls the torsion about the indicated bond. The green check and red cross toolbar icons and may be used to accept or reject the fit.
+
+*5.5 General refitting *
+
+Any entity (amino acid, water etc) in the current model may be activated for fitting by using either the *Fit/Fit residue *command or the keyboard shortcut f. Active entities are colored green in the main canvas. Entities may be translated by selecting the translate icon and adjusted using the right mouse button (the left mouse button retains control of the view orientation). The rotation icon may be selected to change the right mouse button to control the rotation of the active entity. Clicking on a bond in the active entity sets an arbitrary torsion with the rotating atoms at the arrow head marking the bond. The atom closest to selected position is marked with the arrow head which indicates the moving portion. The torsion icon may be selected to set the right mouse button control to the torsion.
+
+Similarly, atomic groups other than individual amino acids may be activated for fitting. The *Fit *commands *Fit Atom*, *Fit Residues*, *Fit Residue Range*, *Fit Atoms *and *Fit Molecule *may be used in conjunction with the selection of atoms from the main canvas to activate portions of the structure for fitting. Note that for multiple selections the list in the bottom left hand corner of the main canvas records the entities currently in the stack. The *Show/Stack *commands may be used to manipulate the contents of the stack.
+
+To accept a fit the *Fit/Accept Fit *command or the icon may be used. To cancel a fit the *Fit/Cancel Fit *command or the icon may be used. If you do not wish to deactivate the model but do wish to return to the original position of the active entity then the *Fit/Reset Fit *command may be selected.
+
+*5.5 Modeling discrete disorder*
+
+Discrete disorder (the presence of multiple well defined conformations, usually for side chains) is very simple to model with MIFit and is handled transparently by the refinement program CCP4/REFMAC5. Well refined structures at resolutions better than 2 will usually show some abnormal side chain densities that may be reasonably interpreted in terms of two major side chain conformations.
+
+To set up an amino acid for modeling discrete disorder, select an atom within the amino acid in which the disorder needs to be modeled and activate it with *Fit/Fit residue *or the keyboard shortcut 'f'. The *Fit/Disorder/Split Fit *command may then be used to duplicate the entire amino acid, with the duplicate copy slightly offset from the original copy for clarity. The duplicated copy may be manipulated with the interactive fitting tools _i.e._ the translation, rotation and torsion adjustment options available from the toolbar.
+
+More commonly, the required modeling requires splitting just a side chain or part of a side chain into multiple conformations. To do this, specify a side chain torsion angle using one of the methods previously described. The *Fit/Disorder/Split Fit *command may then be used to split the side chain at the specified torsion and the new copy may be rotated into position. As usual, the toolbar icons and may be used to accept or reject the fit.
+
+*5.6 Local structure refinement*
+
+The entire molecule or portions of the molecule may be optimized using commands beneath the *Refine *menu. The *Refine/Refine Options *command shows the weights used for the optimization. It will be noted that the refinement target includes a term for matching the electron density as well as tethers for the Cα positions at the ends of the refinement zone.
+
+An active region for structure optimization is colored pale blue. Following optimization, the changed structure may be accepted with the *Refine/Accept Refine *command, canceled with the *Refine/Cancel Refine *command or allowed to remain active but reset to the unrefined position with the *Refine/Reset Refine *commands.
+
+Once a region is active, holding down the keyboard space bar results in a continuous refinement of the selected region to convergence. This is often a powerful optimization technique, resulting in large shifts in the atomic coordinates to fit the electron density.
+
+The entire molecule may be optimized using the *Refine/Refine Molecule *option. More usually, an amino acid is selected for optimization. The individual selected amino acid may be optimized using the *Refine/Refine Residue *command or the amino acid the amino acids on either side of it may be included in the optimization by using the *Refine/Refine Local Region *command.
+
+Selecting two atoms by clicking on them in the main canvas and then applying the *Re-fine/Refine Range *command will result in all amino acids between the first and the last selected atom being included in the optimization.
+
+*5.7 Adding water molecules*
+
+The MIFit software contains several mechanisms for adding water molecules to an atomic model. One method is to fold water picking into automated refinement cycles through the *Job/Refinement *interface.
+
+http://mifit.googlecode.com/svn/wiki/images/image076.jpg
+
+Figure 5.3 Menu for global addition of ordered water molecules to a model
+
+MIFit also provides an independent method for water picking using the *Model/Add Waters... *command. This command is intended to pick waters from a map loaded into the main canvas. This will usually be a difference map in which densities for ordered water molecules are visible as peaks around the protein. The resulting dialog box from this command contains criteria for selecting waters within a border around the protein (via the *Minimum distance from protein *and *Maximum distance from protein *parameters). The *Minimum map level *parameter sets the threshold level for density to be considered as a possible water site. For a difference map this would ordinarily be set to a value of 3-4 sigma; for a conventional map a value of ~1 sigma might be appropriate. The *Maximum number of waters to add *parameter is useful to avoid overloading the map with water molecules. Since the optimal density map level parameter is somewhat problem dependent this is useful to prevent adding too many waters if that value is initially set too low. The *Asymmetric unit *parameter need not ordinarily be changed  it will normally correspond to a unique region of the crystal cell.
+
+Upon selecting *OK *the water fitting process run and the new waters will be displayed in the main canvas. The number of waters added will be reported in the lower left of the status bar.
+
+These methods serve to fit the majority of ordered water molecules in a protein structure. To delete an individual water molecule the most efficient method is to select it via a single mouse click in the main canvas and then using the *Delete *button on the keyboard.
+
+Individual waters may either be added using the *Model/Add residue *command, setting the *Residue Type *pull down menu to HOH (the standard code for a water molecule). A potentially faster method is to use the keyboard shortcut *Shift+W*. This option caused the new water to appear at the mouse position in the main canvas and optimized to fit the density (_i.e._ not at the canvas center).
+
+*5.8 Interactive ligand fitting*
+
+After loading a protein model into the main canvas, the *Model/Add residue *command may be used to add any ligand in the MIFit dictionary to the model. (See the chapter on the Dictionary Editor for information on adding ligands to the dictionary).
+
+
+
+The *Residue Type *parameter is a pull down menu that allows selection of any entity in the MIFit dictionary. The *Insert Position *parameter controls where in the coordinate file the ligand atom record will appear. The *Put At *parameter controls position of the ligand in the structure  to simply add a ligand to the model the ligand density should be moved to the screen center and the *Screen Center *option should be selected. The ligand will appear in arbitrary orientation on the ligand density.
+
+MIFit does not require dictionary data to simply manipulate (rotate and translate) a ligand molecule or to rotate a part of the ligand about an arbitrary torsion angle. In a scenario where the atomic model (including the ligand) and electron density map are loaded in the main canvas and you wish to fit the ligand to a density feature: (i) select the ligand for fitting with a single mouse click on any atom in the ligand (ii) activate the ligand with a mouse click on the *Fit/Fit Residue *menu item or by using the keyboard shortcut f. These actions will highlight the ligand molecule in green. The left mouse button now controls rotation of the entire canvas view and the right mouse button may be set to rotate or translate the ligand molecule. As already described for fitting amino acids, the two icons to the right of the Cancel Fit icon are used to toggle between translational and rotational fitting modes.
+
+A mouse click on a bond in an active residue (ligand) establishes an arbitrary torsion angle within the ligand. This torsion angle is highlighted as a grey arrow along the rotatable bond. The atomic group closest to the point that was clicked will be the part of the ligand that will move. If the icon to the right of the icons that control the translation and rotation operations is selected, a portion of the ligand may be rotated about this bond using the right mouse button. It will usually be fairly obvious to a human with minimal chemistry training which torsion angles within a ligand are allowed relatively free rotation.
+
+
+
+Taken together, these options allow the crystallographer to not only quickly orient a ligand molecule in density but also to fit groups of atoms within the ligand by twisting them about rotatable bonds.
+
+*5.9 Semi-automated ligand fitting*
+
+MIFit contains a command (*Refine/Find Ligand Fit and Conformer*) for docking ligands to difference density during model building sessions. This command performs rotation and translation searches using a genetic algorithm (D. E. McRee, _Acta Cryst_. *D*60, 2276-2279, 2004) on ligands that have been arbitrarily overlapped on to the ligand difference density, including selection of the best fitting conformer. The ligand must be present in the MIFit dictionary to use this option.
+
+The ligand fitting method works best on difference maps that show strong, well defined ligand densities. The interface to this application currently limits the map data to better than 2.5 resolution in order for the method to be applicable. Trials suggest that this is the resolution at which the shape of the density will usually be sufficiently distinctive to correctly fit a ligand. The fitting process will usually work best if stray electron density features (usually corresponding to ordered water molecules near the ligand) are already modeled so as to remove them from the difference map. Large and flexible ligands tend to be the more difficult to fit than small rigid examples; molecules that contain more than 60 non-hydrogen atoms will probably be too large to fit and are currently disallowed by the interface. On the other hand, compact molecules (say consisting of 3-4 planar groups separated by torsion angles) are often fit quickly and correctly.
+
+When the ligand density has been identified in a difference density map, the ligand molecule is first added to the protein coordinate data by selecting the required entity using the *Model/Add residue *command. The *Residue Type *pull down may be used to select the ligand from the list of entities in the MIFit dictionary. The *Insert Position *parameter should usually be *End of Model* and the *Put At *parameter will be set to *Screen Center*. The *Chain id *field may be used to override the default chain selection by entering another single character chain id  usually when a user wishes to enter a new, unique chain-id for the ligand. Clicking on *OK *will place the ligand in an arbitrary orientation at the screen center, which should have been adjusted to overlap the ligand difference density.
+
+The ligand should be selected as 'active' using the *Fit/Fit Residue *command (or keyboard shortcut 'f') and the fitting process launched using the *Refine/Find Ligand Fit and Conformer *command. The process will terminate when either the maximum allowed number of generations is reached in the genetic algorithm. Scores and progress for a running process are displayed in the log window pane and the right segment of the status bar. It should be noted that the position of the ligand that is displayed in the graphics during a ligand docking process is a current position and is not the best fit to that point. The best fit is loaded when the process completes. This procedure typically takes ~1 minute and is directly proportional to the number of conformations sampled (often 200-300).
+
+In some cases the result is a ligand fit that is basically correct but is only an approximate fit to the electron density. When this occurs a useful possibility is to use the *Refine/Refine Residue *option to apply real space refinement to optimize the fit of the ligand to the map.
+
+* *
+
+* *
+
+* *
+
+*6 The Ligand Dictionary Editor*
+
+The MIFit software contains specialized tools to simplify the task of generating refinement restraints for novel ligands. Ligand restraint files may be exported for use with the CCP4/REFMAC5 refinement software or converted to other formats for use with SHELX or CNS/CNX.
+
+*6.1 Entering ligand data*
+
+The *Dictionary/Import Ligand *command provides several paths for entering small molecule information into the MIFit dictionary. This command branches into *CIF*, *Mol*, *Pdb *and *Smiles *options, which may be used to enter small molecule information in any of these formats.
+
+In order to develop information for a novel ligand an effective approach will often be to draw the ligand with a chemistry program containing a molecular sketcher (for example, ChemDraw or ChemSketch, which will efficiently manage bond order information) and load the resulting model into the dictionary editor as a MOL or SMILES file. Alternatively, a set of template coordinates may already be available from the Protein Data Bank web sites. Useful resources for finding those small molecules that have already been found associated with protein structures are now available from the Protein Data Bank web sites.
+
+The *Dictionary/Import Ligand/CIF*, *Mol *and *Pdb *options provide browsers for loading ligand coordinate information in mmCIF (_*.cif_), MOL (_*.mol_, _*.sdf_, _*.sd_) or PDB (_*.pdb_) formats.
+
+From the *Mol *option, the user must also provide a 3 character entity code after entering the ligand data file since, unlike the PDB and mmCIF formats, this information is not a part of that format. To avoid confusion and operational conflicts, it is best not to use three character codes that have already used by the Protein Data Bank for structures in the public domain. These entry codes may be searched from the PDB web site; currently about 5% of the available name space appears to have been taken. In particular, the CCP4/REFMAC5 software includes mmCIF dictionary entries for the majority of these ligands and it is convenient to take advantage of these files.
+
+Both 2D and 3D mol file types are supported, depending on the 2D/3D parameter setting embedded in the mol file format.
+
+The *Smiles *option leads to an interface that provides three different methods for importing the SMILES string.
+
+The *File *option may be used with the associated *Browse *button to enter a file with extension _*.smi_ that contains a SMILES string. Alternatively, the *Smiles *option provides a text field in which to cut-and-paste a SMILES string.
+
+The *Database *option may be used if it is possible to provide a script that is capable of returning a SMILES string as standard output from a ligand identification number (reg number). To utilize this capability the script and the command to execute it should have been provided as the *File/Preferences/Environment/Smiles Database Command *parameter. This capability is mainly intended for users with access to a corporate small molecule data base since these data bases typically store SMILES data for chemical entries.
+
+The ID Code (3 letters) field is required to provide the Dictionary Editor with a 3 character entity code for the ligand since these codes are not part of the SMILES description.
+
+*6.2 The Dictionary Editor interface*
+
+http://mifit.googlecode.com/svn/wiki/images/image078.jpg
+
+Figure 6.1 Image of a ligand loaded into the Dictionary Editor
+
+The Dictionary Editor interface appears after completing the entry of ligand data. This application contains a window for viewing the molecule and displaying the current restraints. The left and right mouse buttons control the rotation and translation of the molecule; by holding Shift while pressing the left or right mouse button the size of the molecule may be adjusted. The keyboard short cut | controls the display of split screen stereo, as for the main canvas.
+
+A right mouse button click may be used to provide access to a menu that allows changing the drawing style. Currently supported styles are *Line*, *Ball and Line*, *Stick *and *Ball and Stick*.
+
+The *Show *check boxes on the left hand side of the interface provides options for displaying the various refinement restraints established for this molecule and for voiding the display of hydrogen atoms and atom labels. For example, checking the *Planes *box will display green meshes across those sets of atoms that a refinement program will restrain to lie in the same planes.
+
+The *Refine *button optimizes the ligand atom positions towards consistency with the current set of restraints. This option is most often used when it is necessary to change a plane definition or a bond order.
+
+The *Atoms *pull down contains options for removing individual selected atoms from the ligand. The *Atoms/Remove Hydrogens *option may be used to eliminate all hydrogen atoms from the entity. Hydrogen atoms should be stripped if you intend to use the main menu semi-automated ligand fitting option (*Refine/Find Ligand Fit and Conformer*).
+
+The *Angles*, *Bonds*, *Chirals *and *Planes *pull down menus at the top of the interface window are access commands for changing the restraint definitions. These tools work in conjunction with interactive atom picking from the molecular image. For example, to change a bond order the *Bonds* checkbox should be selected and an atom bond should be picked. The resulting dialog box may be used to change the bond order.
+
+The most common problem with automatically generated restraints is that the plane group definitions are only partially correct. The software attempts to deduce the correct subsets of atoms to combine into planes from the input coordinate data but this is a relatively difficult problem. In order to add or remove atoms from a plane first click on the plane identifier (for example, a 1 marking plane-1). The plane mesh will then change color to red, indicating that the selected plane is active. The relevant options under the *Planes *pull down menu are now active. Initially, only the *Remove Plane *option is available. After clicking on an atom in the model, options to add or remove atoms also become available and may be used to change the atomic composition of the plane.
+
+It is important to note that the reliability of the automatically derived restraints depends on the quality of the input coordinates. Energy minimized ligand models will usually give correct restraints whereas inaccurate coordinate sets are likely to miss some restraints and may require adjustment.
+
+For input from mmCIF files, which directly encode the required restraint information, the definitions of chiral centers, planar groups etc are read from the mmCIF file rather than generated by the MIFit code. This behavior is useful for checking the mmCIF dictionary files prepared for use with the CCP4/REFMAC5 program.
+
+Although normally used to simple to provide coordinate data for single conformers, the capability generating and exposing multiple conformers for the ligand is available via the *Dictionary/Generate Conformers *command. The ligand conformations are generated in torsion angle space and are subsequently stored in the MIFit dictionary file as explicit coordinates, in a way analogous to the storage of amino acid side chains conformers. The conformers may be viewed using the *Conformer* counter.
+
+*6.3 Exporting ligand information*
+
+Once the ligand is parameterized by a correct set of refinement restraints the *Export to File *button may be used to write ligand dictionary information in the mmCIF format for refinement with CCP4/REFMAC5 or to write a coordinate file in PDB or MOL format. The *Save as type *selection in the file dialog is used to specify the output file format.
+
+After selecting the *Save and Exit *button in the main Dictionary Editor window the ligand coordinates and associated restraints are added to the MIFit dictionary.
+
+*6.4 Restraint dictionary files for SHELX and CNS/CNX*
+
+The mmCIF (REFMAC) dictionary files output by the Dictionary Editor may also be converted to formats useful for refinement with either SHELX or the CNS/CNX family of programs. Although MIFit maintains its own dictionary format, the mmCIF format is used as the most standardized vehicle for information exchange. In addition, the mmCIF dictionary files available within the CCP4 installation provide a valuable resource and the conversion tools allow the utilization of these data with the other refinement programs. The twin commands *Job/Convert Cif to SHELX *and *Job/Convert Cif to CNS/CNX *may be used perform this format conversion.
+
+Once the application for SHELX dictionary conversion has executed a dictionary file for the SHELX program will appear with default name _mi_shelx.lib _in the same directory as the input mmCIF data file. If the command is subsequently repeated with a different mmCIF dictionary files then the additional restraints will be appended to the file _mi_shelx.lib_.
+
+The output files from this application that are intended for use with the CNS/CNX program have names based on the input ligand entity name. For example, if a ligand is described with entity code MMM in the input mmCIF file then the output is a parameter file, _MMM.par_, and a topology file, _MMM.top_. As with the files produced for SHELX, these files will appear in the same directory as the input mmCIF file.
+
+*7 Displaying structure data*
+
+*7.1 Setting model display modes*
+
+MIFit provides many options for displaying protein structures. These options may be selected from the *Render *menu. The basic choices for displaying the atomic model in the main canvas are listed at the top of the menu as:
+
+ Sticks
+
+ Knob and Stick
+
+ Ball and Cylinder
+
+ CPK
+
+The *Render/Sticks *option represents the atomic model by drawing lines between the atomic centers. The *Render/Knob and Stick *option adds to the stick representation by marking the atomic positions with small spheres. The *Render/Ball and Cylinder *option is a version of the *Render/Knob and Stick *option that presents a more three-dimensional appearance. The *Render/CPK *option provides a fully space-filling representation of the molecule.
+
+For the *Render/Ball and Cylinder *display mode the user is able to specify the diameter of the balls and cylinders representing the atoms in the atomic model. The *Render/Set Ball/Cylinder Size *command provides access to a dialog window in which the *Ball Diameter *field allows specification of the ball size as a percentage of the CPK diameter and the *Cylinder Diameter *field allows control of the cylinder size as a percentage diameter of the ball diameter. Setting the *Cylinder Diameter *parameter to ~90% of the *Ball Diameter *parameter provides a way to make thick sticks with a full three-dimensional appearance.
+
+The *Render/Smooth Lines *option is usually selected as this improves the appearance of lines by anti-aliasing. However, this option also slows down the interactive aspects of the model display and, depending on the speed of the host computer, it may be necessary to set *Render/No Line Smoothing *for general model fitting work.
+
+The *Render/Depthcue Lines *and *Render/Depthcue Colors *options both provide a sense of three-dimensionality in the z-direction in the absence of stereo display and these options are normally toggled on. Sometimes it may be more useful to maintain a brighter image by turning off the depth cueing of colors. Depth cueing of only lines still provides some sense of a three dimensional image.
+
+The *Render/Line Thickness *option is used to change the line thickness (in pixels) for the model display. This option is usually set so that lines have a thickness of one pixel but it may occasionally be useful to brighten the image by making the lines slightly thicker.
+
+All model display styles allow the concurrent display of electron density contours, although the electron density surfaces may not be very clearly visible when the *Render/CPK *option is applied. However, the CPK representation combined with the display of difference density contours is a good way to visualize both the crystallographic aspects of ligand binding sites and surface cavities.
+
+All of the model display options are available stereo displays as well as for mono viewing. If several model documents are open, each open model document may be set to different model display parameters and/or stereo mode.
+
+When displaying multiple models during model-fitting operation it may be helpful for the non-active (reference) models to be less displayed with less intensity than the working model. Conversely, if displaying two models in order to create a figure to illustrate their similarities, the models would be displayed with equal visibility. For this reason a *Dim Non-active models *option is available and the extent of the diming may be controlled with the *Set Amount to Dim Non-active Models *parameter.
+
+*7.2 Displaying model surfaces*
+
+A different type of model display involves the representation of molecular surfaces. These representations are somewhat akin to the display of electron maps in that they may appear concurrently with a normal model display option. However, unlike electron density maps, which require structure factor data for their calculation, surface calculations do not require any additional information beyond the atomic model.
+
+
+
+*Dot surfaces*
+
+Options related to dot surface displays are selected from either the Show/Dot Surface menu or from inside the canvas window by performing a right mouse button click to pop up the Quick Menu. Selecting the Show/Dot Surface/van der Waal Surface option creates a dialog window that contains options for controlling the calculation of the dot surface. Only one dot surface can exist in MIFit at any given time. The maximum number of dots/Angstrom is 10 and for a high dot density the display somewhat resembles a CPK display. When the surface extends over large parts of a protein structure the response of the interactive display may be slowed down.
+
+The majority of the Show/Dot Surface options result in the same type of dialog boxes except that in some cases the bounding box is an unnecessary parameter. A particularly useful surface is the solvent exposed surface that may be generated using the Show/Dot Surface/Solvent Exposed Surface command. This is a relatively smooth surface that provides a means of visualizing niches and cavities in the protein that are capable of binding small molecules.
+
+The Show/Dot Surface/Clear Surface command may be used to eliminate an existing dot surface.
+
+*Solid surfaces*
+
+* *
+
+For some purposes it is an advantage to create opaque, solid surfaces rather than semi-transparent dot surfaces. The solid surfaces hide the clutter of the atomic model representation.
+
+Commands related to displaying solid surfaces may be accessed from the Show/Solid Surface menu. The top set of commands Build Surface, Color Surface, Color Surface by atom type and Clear Surface are 'greyed out' (inaccessible) until an atom is selected.
+
+Build Surface renders the surface in either Molecular Surface Mode or Accessible Surface Mode. The surface produced by Molecular Surface Mode is similar in extent to a Van der Waals surface while the surface produced in the Accessible Surface Mode is expanded by the radius of a nominal water probe molecule.
+
+Surfaces may be built based on an Atom Selection, a Single Residue Selection, a Multiple Residue Selection, Peptide Selection or a Molecule Selection. The Peptide Selection option is the most commonly used command since this will create a surface based on all the protein (amino acid) component of a model, leaving cavities containing ligands unfilled. Note that it is possible to build multiple surfaces so, for example, it is possible to render surfaces for two different models showing component of a molecular assembly in the same document.
+
+Solid surfaces are often used to provide a quick visual assessment of whether a designed ligand molecule is able to bind to a particular site without clashing with the protein. Surface depictions are also frequently seen in journal articles, providing an overview of ligand binding cavities and protein surface topography.
+
+Software requirements of fast interactive rendering versus creating an accurate and attractive appearance are somewhat contradictory so the user has two types of option to fine tune the appearance of the surface display. The Set Smooth Level command allows the user to provide increasing numbers of surface smoothing iterations (on a scale of 0-5). Note that the smoothing changes the exact dimensions of the surface. The Standard Quality, High Quality and Ultra High Quality settings change the size of the grid on which the surface is initially computed. These settings improve the accuracy of the surface at cost of some computer time in the initial surface computation and slowing down graphics speed for interactive displays.
+
+*7.3 Backbone and ribbon displays*
+
+Displaying all of the atoms in a model shows the greatest amount of detail but may also make it difficult to visualize the overall features of a structure. An understanding of the fold and major topological features of the entire structure may be facilitated by displaying just the Cα carbon trace or the chain trace as a ribbon diagram, a display mode popularized by Jane Richardson in the 1980s.
+
+The *Show/Backbone *command may be set to *Show backbone as atoms *(_i.e._ the default all atom representation), *Show backbone as CA trace *or *Hide Backbone *in order to control the representation of the backbone. Similarly, the *Show/Sidechains *command contains options *Show sidechain atoms *and *Hide sidechain atoms *to manage the display of all side chains. In order to create an alpha-carbon trace you can select *Show/Backbone/Show backbone as CA trace *and then select *Show/Backbone/Hide sidechain atoms *to hide the side chains.
+
+Similarly, the *Show/Secondary Structure/Make Ribbon *command creates a ribbon image of the current model. The *Show/Secondary Structure/Clear Ribbon *command removes the ribbon image and the *Show/Secondary Structure/Ribbon Colors *command spawns a dialog window that allows the user to change the default colors for the helix, sheet and random coil secondary structure elements.
+
+MIFit also contain options for creating worm and schematic cartoon displays of the protein chain trace in user-managed colors with the *Show/Secondary Structure/Show Tube Secondary Structure *and the *Show/Secondary Structure/Show Schematic Secondary Structure *commands. The *Show/Secondary Structure/Hide Secondary Structure *command may be used to remove these displays.
+
+*7.4 Choosing a background color*
+
+A black background is the standard (default) choice for interactive work with atomic models. However, if you wish to print the display canvas on overhead film or capture the image for a PowerPoint presentation, black is usually a poor choice. An image that appears attractive and displays with good contrast on a computer screen will often appear dark and hard to see when viewed as an overhead or on a PowerPoint slide. Although these issues are to some extent a matter of personal preference, light (often white) backgrounds often look best for these types of presentation.
+
+Printing on paper those images that contain black backgrounds also has several negative consequences. One practical issue, especially when using plain paper in ink-jet printers, is that what emerges from the printer is a soggy welled piece of paper as this soaks up a lot of black ink. The paper takes quite a while to dry and become useable. Another side effect is on the lifetime of the ink cartridge. Manufacturer-specified ink cartridge life times are based on the assumption that roughly 5% of the paper is actually covered with ink, which is a reasonable estimate when printing text.
+
+The background color in the main MIFit canvas may be changed using the *Render/Set Background Color *command.
+
+This command provides a color palette from which a color may be selected by clicking on it. After selecting *OK *the background color for the main MIFit canvas will change to the selected color.
+
+*7.5 Capturing images from the MIFit main canvas*
+
+MIFit provides the *File/Export Image As... *option to write the canvas image as a file in one of a variety of standard image formats _(*.jpeg_, _*.png_ or _*.tiff_).
+
+Alternatively, it is possible to capture the screen view directly for pasting into an open document (perhaps a Word or PowerPoint file) using the *File/Copy Canvas *command.
+
+While displaying a structure with MIFit on the computer screen one might simply want to produce a quick hard copy of the MIFit canvas contents and the *File/Print *command is available for that purpose.
+
+*8 Running external crystallographic software*
+
+MIFit has the capability of running external crystallographic programs (principally from the CCP4 suite) through a command-line library of python 'smart scripts' contained in the MIExpert distribution. Since the Python scripts are fully exposed, these applications may be customized or adapted at individual sites and may be easily updated if the underlying CCP4 software changes between MIExpert releases.
+
+MIExpert protects the user from common problems with using the CCP4 suite (for example, handling paths containing spaces on Windows systems, some atom name justification issues in PDB files). MIExpert also manages various data management tasks by daisy-chaining different programs to perform common tasks. For example, the automated structure solution application includes both molecular replacement and refinement steps and may be initiated directly from image data or integrated intensity data.
+
+All of these applications may be launched from the GUIs within the MIFit *Job *menu once MIExpert is installed. The interfaces themselves are written in Python, using the pyQt module and might be altered locally if desired. For example, it is perfectly possible to add additional parameters to an interface or even provide entirely new major functions. For example, different molecular replacement programs could be added as options to the molecular replacement interface.
+
+*8.1 Accessing the CCP4 suite*
+
+MIExpert uses the CCP4 software suite as a basis for SAD phased map calculation, molecular replacement and structure refinement. To execute the MIExpert scripts the users operating environment should contain the CCP4 environment variables and the CCP4 programs should be in the users path.
+
+On the Windows operating system the relevant environment variables should always be automatically available once the CCP4 suite is installed. User environment variables may be checked by (i) a right mouse click on the *My Computer *icon on the desktop, (ii) selecting *Properties*, (iii) selecting *Advanced*, (iv) selecting *Environment Variables*.
+
+On Linux systems the window in which MIFit was launched will need to know the CCP4 environment. This will not be the case unless execution of the CCP4 setup process (_i.e._ by sourcing the CCP4 setup script) is incorporated into the users login process. You can check to see which environment variables are established in a particular window by using the Linux/UNIX _printenv _command.
+
+*8.2 The Job List menu*
+
+* *
+
+MIFit interface contains a *Job List *that may be accessed via the *Jobs* tab at the bottom of the navigation tree. This list contains all the jobs that have been run in the current MIFit session. Each job is identified by a serial number. A right mouse click on a job provide a set of options, *Delete Job*, *Job Properties*, *Show Log File*, *Clean Successful*, *Clean All *and *Detach Job*. Jobs are color coded by yellow (running), green (successfully completed) or red (failed).
+
+The *Show Log File* option shows all of the diagnostic information from the job that would normally be printed to a terminal. Note that this command is only accessible after the job is completed in order to avoid interfering with a running job. If a job should unexpectedly fail it is often possible to find the cause (or at least, the point of failure) by checking this log.
+
+Occasionally a job is killed or otherwise fails but MIFit continues to list the job as active. This is potentially a problem as the number of simultaneous jobs is limited through the *File/Preferences/General *menu. The *Detach Job *command may be used to close this job.
+
+The *Open Results *option provides a convenient way to open certain files from a completed job. The dialog box lists available session, PDB, and MTZ files in reverse chronological order, since in most cases the most recent files are the results of the job. The user may toggle on or off the types of files to be loaded in to MIFit with the check boxes on the left of the dialog box.
+
+*8.3 The project history file*
+
+Many of the scripted applications described in chapters 9 and 10 employ the concept of a history file (called _project_history.txt_) that is created in and accessed from the working directory in which the calculations were performed. This file logs the key input and output files from each application run together with a summary of the results. This file may make a useful record, for example, of a series of molecular replacement calculations starting from different models.
+
+To maintain accurate and consistent book-keeping, standard file root names and serial numbers are used to name the output files resulting from these scripted applications. Besides providing an indexed record of the script runs, the project history file ensures that the outputs from program runs are named sequentially and that files are not overwritten. Information is appended to the project history file upon job completion _i.e._ failed jobs do not result in an entry.
+
+*8.4 Running custom scripts*
+
+http://mifit.googlecode.com/svn/wiki/images/image080.jpg
+
+Figure 8.1 The custom job interface
+
+The MIFit *Job/Run Custom Job *interface was developed to provide a very simple but general mechanism for running external crystallographic applications and reloading any resulting coordinate (pdb) or diffraction data (mtz) files in to a new MIFit session. This interface provides the user a route for applying a custom script-driven procedure to a model without leaving the MIFit interface.
+
+The *Job Name *parameter is used to provide a temporary identification of the job.
+
+The *Command *parameter specifies the command-line command that the user wishes to execute. The exact form of the command will depend on the operating system and type of script. For example, for a C-shell script on a Linux system running the C-shell the parameter would just be the path to the script. For a python script on Linux it might be necessary to include the path to the python interpreter in the command.
+
+The *Arguments *parameter provides the input to the script. By supplying the arguments _$model _and _$data _paths to the model (supplied by the *Model *parameter) and the diffraction data file (supplied by the *Data *parameter) this information will be passed as the first two command-line arguments of the script. (The quotes are included here to handle paths containing spaces and might be unnecessary on a Linux file system.). For the *Model *parameter either the current active model loaded into MIFit or a model from a file may be passed to the script. Additional arguments could also be included as part of the *Arguments *parameter, as needed by the script.
+
+The *Working Directory *parameter specifies the directory in which calculations will be performed and the output files are expected to appear.
+
+The parameters used by the *Job/Run Custom Job *interface are preserved across MIFit sessions.
+
+*9 Interfaces to CCP4 software*
+
+*9.1 The Job/Integrate interface*
+
+http://mifit.googlecode.com/svn/wiki/images/image082.jpg
+
+Figure 9.1 The *Job/Integrate* interface
+
+Automated processing of image data may be performed using the *Job/Integrate *command, which runs MOSFLM and CCP4/SCALA. This interface is not intended to replace traditional image data processing interfaces for analyzing data on completely new or difficult-to-process crystals; it is intended to automate processing of routine reasonable data sets obtained in high throughput co-crystallography and fragment screening modes.
+
+The *Intensity Data *option is used to select an image file (usually the first image and with file extension _.img_ or _.osc_) from the set of images to process. This image serves as the template for determining which image files belong in the processing set.
+
+
+
+Since this GUI is intended to relieve the crystallographer from the task of processing data from previously characterized crystals the expected space group is known and should be entered as the *Space Group *parameter. No other information is needed to auto-process image data.
+
+In some cases the hardware parameters for the beam center or crystal to detector distance encoded in the headers of the image files are not correct. These values may be rectified by providing a parameter file using the *Reset Hardware Parameters *option. The format of this file is simply a keyword for the parameter that needs to be changed followed by the user defined values.
+
+For example,
+
+beam_center 1013.0000 1009.0000
+
+xtal_detector_distance 50.0000
+
+In some cases it may be necessary to process only a subset of the available images (for example, if the crystal became severely radiation damaged during data collection) or process to a predetermined resolution limit (for example, if the detector area is much larger than the extent of the diffraction pattern). For these purposes the *First Image*, *Last Image *and *Resolution range *parameters are available. Image numbers may be entered in the *First Image *and *Last Image *parameters. The *Resolution range *parameters are low and high resolution limits in angstroms.
+
+The *OK* button is used to launch data integration and merging.
+
+Data integration and merging usually takes several minutes. After completion the standard output files _ScalAverage_1.mtz _and _scala_scaleaverage_1.log _contain the integrated merged intensity data and merging statistics.
+
+*9.2 The Job/Molecular Replacement interface*
+
+http://mifit.googlecode.com/svn/wiki/images/image084.jpg
+
+Figure 9.2 The *Job/Molecular Replacement* interface
+
+Molecular replacement calculations may be run using the *Job/Molecular Replacement *command. This application employs the CCP4/MOLREP and CCP4/PHASER programs to carry out molecular replacement calculations involving complete rotation-translation searches.
+
+Required parameters for these calculations are the *Working directory *parameter, which defines where the molecular replacement calculation outputs will be created, *Model (PDB)*, which defines the input search model and *Data*, which defines the input structure factor data. Note that data may be entered as structure factor amplitudes in mtz format or as merged intensities in d*TREK (._ref),_ SCALEPACK (._sca_) or mtz (_.mtz_) formats.
+
+The *Fixed model *checkbox allows the user to enter a partial model to hold fixed while carrying out a search with the model defined by the *Model (PDB) *parameter. This might be useful for solving a structure with two different types of molecule in the crystal asymmetric unit where it is necessary to locate the two molecules independently.
+
+If there are multiple molecules of the same type, the *Copies* option may be used to set the number of copies that should be searched for. This required number of copies might be estimated using a Matthews coefficient analysis.
+
+
+
+The *Space group *option may be set at *Default *to use the space group encoded in the header of the diffraction data file or a *Space Group Number *may be entered.
+
+The *Method *option may be set to *MolRep *or *Phaser *to select between CCP4/MOLREP and CCP4/PHASER as the molecular replacement engine. At the present time, CCP4/PHASER is a more sensitive and reliable program for solving new structures but CCP4/MOLREP is faster and might be used on simple cases, involving known structures.
+
+
+
+If the *Search multiple models *checkbox is selected molecular replacement processes will be run using each of the PDB files that are found in the same directory as the model defined by the *Model (pdb) *parameter. This option may be useful when a new structure is being solved and it is unclear which of several homologous structures would be the best candidate for solving the structure by MR. The results from multiple searches can be assessed by looking at the project history file.
+
+The *Match input position *checkbox may be used to apply crystal symmetry operations to place the model resulting from the MR process as closely as possible to the input model. This option is useful when working on co-crystal or other projects where there are precedent structures in the same space group since it is usually convenient to have all structures placed at the same position in the crystal cell.
+
+The *OK *button is used to launch the molecular replacement application. Output files resulting from this application are generated in the working directory and identified by file root _molrep_#_ where the # is the serial number corresponding to this molecular replacement run. The project history file may be consulted in order to identify the next available sequence number and find the input, output and summary of each molecular replacement run.
+
+*9.3 The Job/SAD Phasing interface*
+
+http://mifit.googlecode.com/svn/wiki/images/image086.jpg
+
+Figure 9.3 The *Job/SAD* phasing interface
+
+The calculation of refined electron density maps with CCP4/PHASER, given intensity data and a set of sites (for example, previously located with SHELXD) is supported through the *Job/SAD Phasing* interface.
+
+The *Working directory *parameter is the directory in which you wish the SAD phasing outputs to appear. This directory may be located or created via the associated *Browse *button.
+
+The *Intensity data *parameter should contain the path to a file containing merged intensity data, in which the Bijovoet reflection mates have been kept separate. Input data from CCP4/SCALA, SCALEPACK or d*TREK should be automatically recognized. After performing an internal conversion to the CCP4 MTZ file format, these data are processed through the CCP4/TRUNCATE program prior to carrying out phasing calculations.
+
+The *Scatterer sites *parameter is the file containing anomalous scattering sites. The *Files of type *filter in the browser contains a pull down for PDB (._pdb)_ or RES (_.res_) input files, which correspond to PDB and SHELX formats.
+
+The *Scatterer type *parameter may be used to set the element code for the anomalous scattering centers. The default value is S (sulfur) since this phasing system has been successfully tested on examples of sulfur-SAD phasing from a chromium source. SE (selenium) would also be a common setting.
+
+The *Number of sites *parameter is the number of scattering sites that will be used.
+
+The *Solvent fraction *parameter is the expected solvent content of the crystal and is used for the density modification (phase refinement) step for map improvement.
+
+The *Switch site hand *option is used to generate phases the inverted constellation of scatterer sites, since this is initially unknown and both possible hands may be tried.
+
+The *Change spacegroup to *parameter may be used if it is necessary to change the space group from the value given in the input file of intensity data. It may be necessary to use this parameter to test phasing in enantiomorphic space groups or for cases where the processing only determined the point group.
+
+
+
+The *OK *button launches the phasing procedure. It will typically take a few minutes to phase a protein.
+
+*9.4 The Job/Refinement interface*
+
+http://mifit.googlecode.com/svn/wiki/images/image088.jpg
+
+Figure 9.4 The *Job/Refinement* interface
+
+Automated refinement jobs with error detection may be run using the *Job/Refinement *command.
+
+The *Working directory *parameter specifies the location where the output files resulting from the refinement will be generated.
+
+The *Model (PDB) *parameter specifies the input model and the *Data *parameter specifies the refinement data file in mtz format.
+
+The *Refinement Type *options include *Rigid Body*, which performs rigid-body refinement of the independent chains within the coordinate set, and options to perform refinement on all atomic parameters with either *Refmac5 *or *SHELX*.
+
+Individual atomic temperature factors may be refined with either *Isotropic *or *Anisotropic *restraints.
+
+The refinement weight applied to the x-ray term in restrained refinement may be specified using the *Weight *parameter. In practice, the optimal weight tends to larger values with higher resolution data and also tends to diminish as the refinement approaches convergence.
+
+The *Number of cycles *parameter specifies the number of refinement cycles within a refinement run. A value of 5-15 cycles is often sufficient for preliminary refinement of a co-crystal structure.
+
+The *Water picking cycles *parameter intersperses water-picking with refinement cycles. For example, if this parameter is set to a value of 3 then electron density maps will be scanned for water molecules following each of three refinement runs and the process will then be completed by one further refinement run.
+
+The optional items that may be supplied through this interface include *Max resolution*, which allows the user to truncate the upper resolution of data used in the refinement.
+
+The *TLS Specification *parameter may be used to input specifications of bodies to use for TLS refinement (see the TLSIN format as specified by the CCP4 documentation).
+
+The *Dictionary *parameter may be used to provide a restraint dictionary for an input structure that contains a novel small molecule ligand.
+
+The *OK *button is used to launch the refinement application.
+
+Output files resulting from this application are generated in the working directory and identified by file root _refine_#_ where the # is the serial number corresponding to this refinement run. The project history file may be consulted in order to identify the next available sequence number and find the input, output and summary of each refinement run. Output files retained from the refinement process using CCP4/REFMAC5 include coordinates, phased reflection data, the standard CCP4/REFMAC5 summary files in free text and mmCIF format and the error list file.
+
+*Note: Automated structure validation and the 'error list'*
+
+Structure refinements run via the *Job/Refinement *and the *Job/Cocrystal Solution *interfaces automatically create an 'error list' text file that reports certain global structure quality values and a list of amino acids in which a severe abnormality was detected.
+
+This file may be loaded as an annotation for a given structure to provide a display on the main canvas of the error type and site. Select the *Display *tab in the navigation tree, right click on the *Annotations *icon and select *Import from error list *to load this list. In addition the errors are encoded in the header of the PDB file and the command *Auto-show imported errors* may be used to display/conceal them from the main canvas. (Often you may prefer to conceal this display!)
+
+Global quality metrics include the standard crystallographic indices R,,work ,,and R,,free ,,as calculated by CCP4/REFMAC5, the percentage of residues outside the core area of the Richardsons Ramachandran analysis (treating general, Pro and Gly amino acids as separate cases), the percentage of residues with severely abnormal χ1 angles (using the Richardsons side chain torsion angle data as implemented in CCP4/ROTAMER program) and the total number of amino acids that appear to contain local errors. These metrics give a good indication of the quality of a structure model at a particular point in the refinement. The text file is concise enough to be printed and included in a laboratory notebook.
+
+More useful for achieving model improvement is the information from the list of local errors, which may be used as targets for model examination and rebuilding efforts. Although proteins do contain some genuine structural anomalies (with interesting energetic rationales) and there is a grey zone in assessing what degree of misfit between data and map is acceptable, the calculation routes and thresholds used to identify most of these errors types have been tested on very large numbers of structures and will usually indicate portions of the model that need to be checked and corrected. The statistical data used for these tests and calculation routes are more sophisticated and modern than standards embodied in the PROCHECK (1993) program and the density checks supply a means of detecting geometrically correct features that misfit the data.
+
+More specifically, the criteria for flagging structure errors are:
+
+Geometry errors  bonds length deviations greater than 6x the refinement sigma or bond angles greater than 8x the refinement sigma used by REFMAC5
+
+Van der Waals errors  close contact deviations greater than 4.25x the refinement sigma used by REFMAC5
+
+Omega errors  deviations of 4x the true deviation (5.6) from the peak (178.9)
+
+Phi-Psi errors  lies outside a prescribed area containing 99.95% of correct amino acids in the general area, 99.8% of correct amino acids for GLY and 99.8% of data for PRO in the Richardson tabulations
+
+Cis peptide errors  any non-PRO amino acid flagged as cis by REFMAC5
+
+Rotamer errors in χ-1  deviations of more than 45 in χ-1 from the nearest conformer as calculated by ROTAMER, using rotamer data from the Richardson lab
+
+Density errors  identification of a 5 sigma peak/hole within 1.5 of any model atom. This threshold may need adjustment.
+
+With the possible exception of density errors, a fully refined structure will have very few residual abnormalities.
+
+*9.5 The Job/NCS Modeling interface*
+
+http://mifit.googlecode.com/svn/wiki/images/image090.jpg
+
+Figure 9.6 The *Job/NCS Modeling* interface
+
+When building models of protein crystals in which there is more than one subunit per asymmetric unit it is usually the case that model fitting efforts are concentrated on one copy that is defined by a single chain id in the PDB coordinate file. In the early building stages it would be desirable to replicate this rebuilt model across all copies of the protein. The *Job/NCS Modeling *interface is designed to provide a convenient mechanism for this task.
+
+This interface is available when a protein model is loaded into the MIFit canvas. Required parameters are the *Primary Chain ID*, which defines the template chain (the model that the user wishes to replicate over the less completely modeled chains in the structure) and the *Working Directory *where the rebuilt model will be placed.
+
+The optional *Model Exclusions *parameter may be used provide the path to a file that contains data lines for chain-id, start-amino-acid-number, end-amino-acid-number over which the NCS symmetry will not be applied. For example, B 120 130, would exclude chain B, amino acids 120-130 from reconstruction.
+
+When launched by selecting *OK *the rebuilt model is returned to the MIFit canvas.
+
+Optionally, a diffraction data file may be entered with the *Data (mtz) *parameter and the density map may then be averaged within the model envelope to provide phases according one of the *Average Calculated Phases*, *Average Experimental Phases *and *Average Combined Phases *selections. These are all somewhat experimental options. The process will automatically calculate phases but expects the input file to contain Hendrickson-Lattman ABCD coefficients to make use of experimental phases.
+
+The *Mask Additions *option provides a specification (a file containing lines with chain-id, amino acid-number) for including atomic groups outside the primary chain in the subunit mask that is used for averaging. The output mtz file is named after the input pdb file but prefixed with _ncs__.
+
+*9.6 Automated multiple protein:ligand structure superposition *
+
+http://mifit.googlecode.com/svn/wiki/images/image092.jpg
+
+
+Figure 9.6 The *Job/Cocrystal Superposition* interface
+
+A very common scenario in protein crystallography is that several closely related structures (with the same sequence) have been solved and the structure analyst wants to compare the binding modes of many different ligands within the active site. To perform an accurate comparison of ligand coordinates, only atoms around the ligand binding sites should be used for the structure superposition. The method used here is to base the structure superposition on Cα atoms within 15 of an active site coordinate within the reference structure.
+
+The *Job/Cocrystal Superposition *command is used to run the structure comparison.
+
+This command is only accessible when a model is loaded into the MIFit main canvas and it will often be convenient to first load the reference structure that will be used as a basis for the structure superposition.
+
+The *Working Directory *parameter defines the path to the directory in which the results from the structure comparison will appear.
+
+The *Structure Directory *should contain all the coordinate files (PDB format) for the protein:ligand structures that will be compared. These structures must have consistent sequence naming conventions. _i.e._ residue A 22 in one structure corresponds to residue A 22 in all the others.
+
+The *Target File *parameter defines the particular coordinate file that will be used as the reference structure for comparisons. This file is usually one of the structures in the *Structure Directory *but need not be.
+
+The *Target Coordinates *are the *X*, *Y *and *Z *positions in angstroms in the *Target File *for the center of the ligand binding site. This position is used to select the surrounding Cα atoms for structure superposition.
+
+After clicking on *OK *the superposition process will return a coordinate file called _allligands.pdb _to the *Working Directory *and load this file into the MIFit main canvas. This file contains all of the ligands with the structure set superimposed together and distinguished by unique chain ids.
+
+*9.8 The Job/Refmac5 restraints interface*
+
+Protein structures that contain cofactors or other small molecule ligands may require the input of restraint information for their refinement. The CCP4/REFMAC5 installation contains dictionaries in mmCIF format for most of the small molecule entities found in public domain structures. Many of these dictionaries are in a form such that the ligand stereochemistry is automatically known to CCP4/REFMAC5 (_i.e._ in the same way that the standard amino acids are known) but others are in a minimal form that and require preprocessing to a complete description before being used. In addition, some structures contain several novel ligands, or a combination of known and novel ligands. It will not always be obvious before attempting to run a refinement whether all of the entities in a coordinate file are accounted for and that the refinement will be able to proceed.
+
+In order to check a coordinate file and, if necessary, combine various sources of restraint information, the *Job/Set Refmac5 restraints *command is available. The input for this command is the coordinate file that you wish to use for refinement and, in the same directory as that file, any mmCIF dictionary files that are considered necessary for the refinement. The dictionary files should be named according to the three character residue code in the coordinate file with file extension _.cif_. For example, if the structure contains a novel ligand MMM there should be dictionary file available called _MMM.cif_.
+
+The results from running this pre-refinement check are reported in the project history file. If a restraint dictionary was created that contains the information from several inputs it is named _restraints_#.cif_, where # is a serial number reflecting the number of times this command was executed in the current working directory.
+
+Outputs from this process are most conveniently viewed via the *Job List *control in the document tree pane
+
+*10 Automated Structure Solution*
+
+*10.1 Overview*
+
+An automated structure determination process has been developed as a special application within _MIExpert_ to provide pre-refined structures and maps for co-crystal structure analysis in as efficient and convenient a manner as possible.
+
+*Process Summary*
+
+* *
+
+This process prepares refinement data from files of integrated intensities (D*TREK, SCALEPACK and SCALA (MTZ) formats are supported), runs molecular replacement with CCP4/MOLREP and performs preliminary refinement calculations (including water picking) with CCP4/REFMAC5 to obtain a pre-refined model of the co-crystal structure. The interface and associated script allow for the entry of multiple data sets in a single job.
+
+A MIFit session file is created at the completion of the refinement process with pre-computed map data and with a view centered on the expected ligand site. An option is available to provide an HTML report summarizing results from a set of co-crystal solution jobs on multiple structures. Summary information on the structure solution process is provided in the file _project_history.txt_ in each working directory. A convenient list of probable structure errors is also provided for each structure. The entire automated process will normally complete within a few minutes per structure. For example, on a 2GHz laptop, it takes 3.5 minutes to complete this process on a 2 resolution data for hsp90.
+
+The application may also start with unprocessed image data and will perform the preliminary image data processing and merging. Obviously, image data processing is a relatively long operation and will typically add ~10 minutes to the run time.
+
+*Reference data and structure transformations*
+
+* *
+
+If a reference data set is provided the process will re-index the new data sets (for applicable space groups) to find the indexing that is most consistent with the reference. Following molecular replacement, the script will also apply symmetry operations to place the resulting models as close as possible to the input model. The aim of these operations is to ensure that all structures within a series of co-crystals are conveniently placed at the same position in the crystal cell. The cross-validation flags in the reference data set are preserved in the setup of refinement data for the new structure.
+
+*Molecular replacement and refinement*
+
+If the structure is known to exist in multiple conformational states, a set of possible starting models may be automatically input to the molecular replacement process. In the case of searches involving multiple trial models, the model that gives the lowest R-factor following molecular replacement is carried forward for further refinement.
+
+The model refinement is run in two stages, initially with the model directly from molecular replacement and then by four short runs that are interspersed with water-picking calculations. All data are used for refinement calculations together with the 'mask' bulk solvent correction and isotropic B-factor refinement. Should a special restraint library be needed for the refinement (_i.e._ if the MR model contains non-standard components) it may be supplied as part of the input.
+
+*Ligand placement*
+
+An interface option is available to support ligand placement. A rigid ligand 6D search may be used if the ligand conformer can be anticipated (for example, in the case of fragments or ligands closely related to previous examples) although this is somewhat slow. The flexible search option may be used if other ligand-fitting technology is available and has been implemented in the MIExpert_ mi_bng.py_ driver script.
+
+*10.2 The automated co-crystal structure determination interface*
+
+http://mifit.googlecode.com/svn/wiki/images/image094.jpg
+
+Figure 10.1 The *Job/Cocrystal Solution* interface
+
+The *Job/Cocrystal Solution *interface automates co-crystal structure solution. The minimum requirements for running this application are a molecular replacement search model and a file of intensity data.
+
+The molecular replacement search model may be entered as the *Model (pdb) *parameter.
+
+The filenames for the data set(s) to be analyzed may be entered under the *Intensity Data *parameter using the *Add *button. An important and useful feature of this interface is that a series of related data sets may be added to the *Intensity Data *list and the structure solution operations will work on each of them in turn. If a data set is incorrectly included in the processing list it may be removed with the *Remove *button.
+
+For this application the working directory is assumed to correspond to the location of the data set_. i.e._ it is best to place each set of intensity data within a separate directory. If the extension for the data set is _.img_ or _.osc_ then it is assumed that this corresponds to an image data file and the application will attempt to process all image data in that directory. A subdirectory called 'BNG' is created as the working directory for all subsequent steps in this case.
+
+A set of optional menu items are available for these structure solution jobs.
+
+The *Image Data *option may be set to *Preprocessed *if the input file is merged integrated data or *Process** *if the user wishes to process the image data as part of the automation process. Automated image data processing is somewhat less robust than the rest of the structure solution process although it is practical for good quality data.
+
+The *Detector Constants *option is only applicable if the structure solution job includes automated image data processing and information (usually the beam center or crystal to detector distance) is incorrect. The browse button associated with this option may be used to select a text file (_.txt_) that may contain values for the beam center (beam_center) in mm and the crystal to detector distance (xtal_detector_distance) in pixels.
+
+For example,
+
+beam_center 1013.0000 1009.0000
+
+xtal_detector_distance 50.0000
+
+The *Spacegroup *option may be set at *Unchanged *to use the space group encoded in the header of the diffraction data file. If this value is incorrect but the data was processed in the same point group the correct *Space Group Number *may be entered. The space group number must be provided if this application is to run image data processing.
+
+
+
+Although (arguably) not strictly necessary, it will often be preferred to provide a *Reference Data (mtz) *parameter to apply the indexing conventions and R-free flags used in this reference data to the new data set. In some space groups the provision of this data set is necessary to ensure that the final model is placed in the crystal at approximately the same position as the input search model.
+
+A potentially useful option is the provision of a *Search Multiple Models *checkbox which, when toggled on, will perform MR calculations using all PDB files in the same directory as the model specified by the *Model (pdb) *parameter. The model that gave the best MR solution (lowest R-factor) is carried forward for subsequent refinement. This capability is useful when a co-crystal is known to exist in multiple crystal forms (say, an open and a closed conformation) as the MR process will select the most appropriate model for subsequent refinement and model-fitting.
+
+The *HTML Summary *option is a path to a directory in which a summary of the results from a set of structure solution jobs will appear.
+
+The *Dictionary (cif) *parameter may be used to provide any CCP4/REFMAC5 dictionary that might be required to run refinement on the input model. For example, this would be the case if the molecular replacement model incorporated coordinates for a novel ligand or cofactor.
+
+The *View Point *option with the *Points *parameter toggled on requires *X*, *Y*, *Z *as parameters corresponding to the view point in angstroms. This option provides an input for centering the view in the resulting MIFit session file. Alternatively, with the *Session *parameter toggled on, the required input is a previous session file. In that case both the view center and other display attributes (view direction, slab thickness, map colors etc) from that file are applied to the new session file. These options also eliminate water molecules from the vicinity of the target point in order to facilitate the generation of clearer difference density maps.
+
+The *Place Ligand (pdb) *parameter may be used to provide ligand placement near the *View Point *target as a final step in the structure solution process. Unless ligand docking software is installed and implemented the available option is purely a density docking process by 6D search _i.e._ it adds the ligand to the protein but does not attempt to refine it. For this reason, no dictionary is required for the ligand. The rigid-body docking is mainly useful is the ligand conformation can be anticipated in advance or the ligand has few degrees of freedom (_i.e._ for fragment screening). The ligand coordinates are taken from files specified by the browsers for the two ligand search options.
+
+Once the *OK *button is clicked the automated structure solution begins.
+
+The model resulting from this process is _refine_3.pdb _with associated data file _refine_3.mtz_. If the 6D ligand placement option was applied a coordinate file _refine_3_ligfit.pdb_, which contains the fitted ligand, is also created. A MIFit session file (_bng_milaunch.mlw_) that displays the final model in the context of the final electron density map and the final difference map is available for facile review of results. Local abnormalities in the final structure are listed in file _refine_3_errors.txt._ Crystal symmetry operations are applied to superimpose the final refined model at the same point in the crystal as the input model.
+
+As co-crystal solution jobs complete the emerging session files may be viewed using MIFit. On a moderately powerful laptop computer, session files can usually be reviewed concurrent with ongoing structure solution processes.
+
+*11 Tutorial lessons*
+
+*11.1 Lesson 1: Basic manipulations of the model display*
+
+_This lesson introduces some of the mechanisms for controlling the view and representation of an atomic model. _
+
+1. Copy the file automation_out.pdb from the examples directory of your MIFit installation into a new directory.
+
+2. Select the File/Open models, data, maps, etc... command to load a coordinate file in PDB format. Use the Look in pull down menu in the resulting browser window to locate the file in the directory used for (1). Load the file (by a mouse clicking on it) and select Open. You should see the protein model appear in the main canvas window.
+
+3. Try rotating the model by dragging the left mouse button in the canvas window.
+
+4. Try zooming in and out by dragging the left mouse button while holding down the Shift key. Dragging the left mouse button up zooms in and dragging the mouse button down zooms out.
+
+5. Try panning the model by dragging with right mouse button in the canvas window.
+
+6. Notice that if the cursor is positioned in the extreme top of the main canvas the function of the left mouse button changes so that dragging it left or right rotates the view about the Z-axis. The function of the right mouse button also changes so that it controls the slab.
+
+7. Try mouse clicks on the two slab icons from the toolbar to slab the canvas view in and out.
+
+8. Try to re-center the display by a double mouse click on an atom in the main canvas.
+
+9. Try centering on a residue by a double mouse click on an amino acid in the Residues List section of the navigation tree on the left.
+
+10. Try centering on a residue by entering a chain-id, residue name pair (say, X 35) in the Go to residue parameter box at the top of the navigation tree on the left and hitting the Enter key.
+
+11. Try centering on a residue by a double mouse click on an amino acid in the sequence window on the right.
+
+12. Try a single mouse click on an atom in the main canvas. Notice that this atom is placed in the stack in the lower left of the canvas. The stack is used to identify targets for commands that operate on specific atoms or residues.
+
+13. Try coloring a residue by clicking on a residue, clicking on the paint can icon in the toolbar and selecting the Color Last Picked Residue option. In the resulting dialog box select a color by clicking on it and then use the Method pull down menu to select to All atoms. When you select OK you should see the color of all atoms in the selected residue change. Try some of the other color options. You can also perform most of the same commands from the Render/Color options.
+
+14. Try changing the rendering style by selecting the different options from the Render pull down menu. Many people prefer to use the Sticks option for speed and simplicity when model fitting.
+
+15. Try the command Viewpoint/Center model on screen to zoom and slab the model automatically to fill the screen.
+
+16. Try changing the model to a backbone only representation by selecting the Show/Backbone/Show backbone as CA trace and the Show/Sidechains/Hide sidechain atoms commands. You should now see only connected CA atoms of each residue (and any ligands, waters or prosthetic groups, if they were present in the input model). It is simpler to see the overall fold of the protein in this representation
+
+17. Try the command Show/Secondary Structure/Make Ribbon to make a ribbon representation. A popup dialog box asks whether you wish to retain the original representation of the model (the CA trace) in addition to building the ribbon diagram. You may select Yes to remove the CA trace. The resulting model will be represented in different colors for helix, sheet and coil portions of the molecule.
+
+18. Try changing the ribbon colors by selecting the Show/Secondary Structure/Ribbon Colors command. Clicking on each of the Helix Color..., Sheet Color... and Random Coil Color... buttons will provide a color palette for selecting new colors for each of these secondary structure types. Select red for the helix, yellow for the sheet and green for random coil. Click OK to see the model re-colored with these choices.
+
+19. Select Show/Secondary Structure/Clear Ribbon to remove the ribbon display. The canvas may now appear empty as the model is hidden.
+
+20. Select Show/Secondary Structure/Show Tube Secondary Structure to draw the molecule as a glossy tube. You may answer either Yes or No to the dialog box that asks Do you want to hide residue atoms. Select Show/Hide Secondary Structure to remove the tube representation.
+
+21. Select Show/Secondary Structure/Show Schematic Secondary Structure to draw the molecule with schematic secondary structure rendering. You may answer either Yes or No to the dialog box that asks Do you want to hide residue atoms.
+
+22. You may select File/Close or File/Exit to close this session or shut down MIFit.
+
+*11.2 Lesson 2: Loading and changing electron density map displays *
+
+_This lesson introduces some of the mechanisms for loading and adjusting the display of electron density maps. _
+
+1. Copy files automation_out.pdb, bng_mlmap.fcf and bng_milaunch.mlw from the examples directory of your MIFit installation into a new directory. These files are a co-ordinate file, a file of phased x-ray data and a MIFit session file for loading the coordinates and data with preset view information.
+
+2. Use the File/Open models, data, maps, etc... command to load the file bng_milaunch.mlw from the directory (1) in which it was placed. You should see the electron density map appear around a protein model in the main canvas. Note that space group and cell information (the text beside the crystal icons) are independently read from both the input coordinate file and the x-ray data file. In the case of an _.fcf_ format file the space group information is absent but the crystal symmetry operators are encoded.
+
+3. Try using the right mouse button to pan across the map. You should see that the map is automatically re-contoured as you scroll across the main canvas and you move to the edge of the current box of map density.
+
+4. The map size and contour levels can be changed using the Contour Options command in which may be accessed via a right mouse click on the map icon in the *Models List* tree. Move the Radius scrollbar to change the size of the display density to a 9 box. From the pull down menu in the Preset Map Styles list box make sure that the first option - Blue Map 1,2,3,4 5 sigma is selected. The lowest contour level for displaying this map is set to one sigma (Crystallographers refer to the root-mean-square density fluctuation of the map in terms of sigma, although this may be confusing as it does not relate to the error in the electron density for this type of map). MIFit internally scales maps so that one sigma is set to 50 units. The other density levels are initially set to 2 sigma, 3 sigma etc for up to 5 contour levels.
+
+5. Try turning off contour levels 2 and 4 by removing the checks from the associated Show parameters. Click on OK and you should see these two intermediate contour levels disappear from the display, leaving a less cluttered image.
+
+6. Try changing the resolution of the map by selecting the FFT Phases command via a right mouse click on the map icon in the *Models List* tree. Set the Min Resolution parameter to 3.0 and select OK. The operating default for the FFT had been set to create the map using the full resolution limits of the data but you should now see the map at 3 resolution showing much less detail.
+
+7. Try changing the grid spacing for the map contours by selecting the FFT Phases option again and changing the Grid option from the default (Medium Grid) to Fine Grid. Click on OK and you should see that the map is returned with a much smoother appearance. The Medium Grid setting is used for most model building activities since extra contour lines impede graphics performance and may make the model hard to see but presentation images sometimes look better when over-contoured on a fine grid.
+
+8. Zoom out the model and select the Show/Symmetry Atoms/Show symmetry atoms as atoms command. You should see some symmetry related atoms (purple) appear around the molecule.
+
+9. You may select File/Close or File/Exit to close this session or shut down MIFit.
+
+*11.3 Lesson 3: Refitting individual residues*
+
+_Scenario: You have been refining a protein structure which is correct except for the positions of a few residues which still misfit the electron density map after the last cycles of refinement. You wish to refit these amino acids. The lesson illustrates methods for refitting individual amino acids. _
+
+1. Copy files automation_misfit.pdb and automation_out.mtz from the examples directory of your MIFit installation into a new directory. These files are a coordinate file that contains a few model fitting errors and file of phased x-ray data in mtz format from a refinement with CCP4/REFMAC5.
+
+2. Select the MIFit File/Open models, data, maps, etc command to load file automa-tion_misfit.pdb and automation_out.mtz from the directory established in (1). (Hold down the Shift keyboard button as you use the mouse to select both files.)
+
+3. A dialog box will appear that allow selection of map types and MTZ columns labels. In this example we will create the electron density map from pre-computed likelihood-weighted structure factor coefficients and phases that were calculated by the REFMAC5 program. _i.e._ we will simplify the calculation route by utilizing pre-computed map coefficients with the *Direct FFT* option. Since MIFit automatically recognizes MTZ files with standard REFMAC5 column labels, the dialog will automatically be set to load these values. Simply click on OK.
+
+4. Scroll down to residue X 142 in the Residues List section of the navigation tree and make a double mouse click on it. This action will re-center the model and map on the Cα atom in residue X 142 Tyr. You will notice that the side chain of this amino acid does not fit the density.
+
+5. Select the residue to be fit (X 142 Tyr) by clicking on any atom in it in the main canvas. Now select either the Fit/Fit Residue command or the icon in the toolbar or the keyboard shortcut f. The residue should turn green to indicate that it is active for fitting.
+
+6. Try translating the residue by either clicking on the Fit/Translate command or the translate icon in the toolbar. Using the right mouse button you can now move the selected residue around the canvas.
+
+7. Try rotating the residue by either clicking on the Fit/Rotate command or the rotate icon in the toolbar. Using the right mouse button you can now rotate the selected residue around the canvas.
+
+8. Reset the position of the amino acid back to the starting position but remain in fitting mode by selecting the Fit/Reset Fit command.
+
+9. To activate rotation of the side chain about the χ1 angle (_1_ along the bond between the Cα and C atoms) enter 1 on the keyboard. You should see a grey arrow that points from the Cα to the C atom appear on the model in the main canvas window. Use the right mouse button to rotate the side chain about χ1 into the electron density.
+
+10. The side chain also needs to be adjusted slightly about the χ2 angle (_i.e._ the bond between the C and Cγ atoms). Enter 2 on the keyboard and you should see the grey arrow shift
+
+to point from C to Cγ. Use the right mouse button to rotate the side chain about χ2 into the density.
+
+11. In a real fitting session you would now accept this fit either by selecting the Fit/Accept Fit command, by clicking on the green check icon on the toolbar or by using the keyboard shortcut ;. Here, select Fit/Reset Fit so that the lesson can continue to show other fitting methods. Select the cancel fit icon (a red cross) to deactivate this residue.
+
+12. A convenient way to refit side chains is to use the Model/Replace and fit command (or the keyboard shortcut r). Try this by making a mouse click on any atom in X 142 Tyr in the main canvas and entering 'r' from the keyboard. A dialog box will pop up with a pull down menu containing all entity types in the MIFit dictionary. Since we want to retain the default amino acid type (Tyr) select OK. You will see that the Tyr side chain move to fit the electron density. To save this fit you could select the green check icon from the toolbar. Alternatively, to cancel this fit click, select the cancel fit icon from the toolbar.
+
+13. We will now correct a common type of main chain fitting error, a peptide flip, in which the carbonyl oxygen is rotated by approximately 180 degrees from the correct orientation. Make sure that Chain:X in the *Models List* part of the navigation tree is still selected (icon is colored blue), scroll up the Residues *List* to residue X 37 and make a double mouse click on it. This action will re-center the model and map on the Cα atom in X 37 Phe. You will notice that the main chain of this amino acid does not fit the density.
+
+14. In the main canvas, click on the carbonyl (O atom) in X 37 Phe with the mouse. Select the Fit/Fix Backbone/Flip Peptide command. You will see the peptide plane flip over so that the carbonyl now properly fits the electron density.
+
+15. You will now use a pentamer library to check a part of the protein structure. Make sure that Chain:X in the *Models List* part of the navigation tree is still selected (icon is colored blue), scroll down to residue X 192 and double click on it. This action will re-center the model and map on the Cα atom in X 192 Glu.
+
+16. Click on any atom in X 192 Glu in the main canvas. Select Fit/Fix Backbone/Suggest Backbone Match. You will see a pentamer match to the backbone, starting at X 192 Glu, appear on the screen in purple. In this case the protein conformation is similar to the pentamer and there is no reason to change it. If the atomic model dims you may turn of the dimming by unselecting the Render/Dim Non-active models command. The image of the pentamer match can be removed with the Fit/Fix Backbone/Clear Backbone Match command. In cases where the backbone should be refit to match the pentamer the four Fit/Fix Backbone/Replace commands could be used to replace parts of the structure.
+
+17. You may select File/Close or File/Exit to close this session or shut down MIFit.
+
+*11.4 Lesson 4: Chain tracing*
+
+_Scenario: You have just obtained an electron density map and wish to build a model into the electron density. (Note: automated model-fitting programs are now usually used to build initial models into experimentally phased map. In other cases, molecular replacement methods are used to obtain an approximate model. In both these situations the manual building process is often limited to tracing loops and model correction.) _
+
+1. Copy files start_trace.pdb and automation_out.mtz from the examples directory of your MIFit installation into a new directory. The file start_trace.pdb just contains two Cα marker atoms (MRK residues) and is used to initiate the model-building process and guide the tutorial. The file automation_out.mtz contains phased structure factor data that will be used to compute an electron density map into which the model will be built.
+
+2. Use the command File/Open models, data, maps, etc... to load the coordinate file _start_trace.pdb _and data file automation_out.mtz from the directory in which you placed it. In the phase file import dialog, deselect loading the difference map (map coefficients DELFWT and PHDELFWT) and click on *OK*. The two marker structure and map should appear in the main canvas.
+
+3. Make sure that the region of the map has appropriate volume and contour levels for model building. With the right mouse button click on the map icon in the Models List section of the navigation tree and select the Contour options... command. In the resulting dialog box, move the Radius slider to about 10 in order to set a 10 box for the map volume. You may also wish to set the Preset Map Styles option to Blue Map, 1,2,3,4,5 sigma and then uncheck the display of contour levels 2 and 4 to remove some of the contour lines from the map display. Select OK and you will see the map view change to these settings.
+
+4. In the Go to residue parameter box at the top of the navigation tree enter X 150. This action will center the display on Cα marker X 150.
+
+5. Perform a mouse click on the (centered) MRK 150 entity in the main canvas and then select the Model/Add MRK After command. You should see a green line appearing to connect that marker to the expected position for the next Cα atom.
+
+6. By continuing to select Model/Add MRK After or by using the keyboard short cut SHIFT &gt; trace out four more Cα positions.
+
+7. Select Refine/Accept Refine and Fit/Accept Fit to accept this trace.
+
+8. Select Model/Poly-Ala Chain to convert this Cα chain trace to a polyalanine chain trace.
+
+9. The C-terminal residue is not fully converted to ALA (it remains as a MRK residue) and may be deleted by making a mouse button click on the MRK atom in the main canvas. Then, make a right mouse button click in the main canvas and select Delete Residue from the pop-up menu.
+
+10. Since this is a high resolution map showing atomic detail it is useful to optimize the poly-ALA trace before adding side chains. Perform a mouse click on an atom at both the N- and C-terminal ends the chain. Select Refine/Refine Range to activate this chain for refinement (it will change color to blue) and then hold down the space bar to drive the refinement to convergence. Accept the result by selecting Refine/Accept Refine.
+
+11. As an exercise you could now add side chains by selecting a residue with a mouse button click in the main canvas and then using keyboard short cut 'r' to open the 'replace and fit' dialog box. After selecting the correct residue type from the residue pull down menu it is replaced with optimal matching to the electron density map. (The true sequence for this polypeptide trace is TVITKHN)
+
+12. You may select File/Close or File/Exit to close this session or shut down MIFit.
+
+* *
+
+*11.5 Lesson 5: Displaying molecular surfaces*
+
+_Scenario: You have completed the refinement of a protein:ligand structure and you wish to examine the ligand binding volume and the protein surfaces. _
+
+1. Copy file 1A28.pdb from the examples directory of your MIFit installation into a new directory. This file contains a protein structure with a bound ligand (progesterone).
+
+2. Use the MIFit command File/Open models, data, maps, etc... to load coordinate file 1A28.pdb from the directory in which you placed it. The structure will appear in the main canvas.
+
+3. Use the mouse to select chain B in the Models List pane of the navigation tree. Scroll down to the end of the *Residues List* and perform a double mouse click on entity STR 2 in the Residues List section of the tree. These actions will center the canvas display on the bound ligand STR 2.
+
+4. Use the mouse to click on any atom in the main canvas.
+
+5. Make sure that the Show/Solid Surface/Molecular surface *mode* option is checked and select the Show/Solid Surface/Build Surface command. After a few seconds you should see the solvent exposed surface including a completely enclosed cavity that contained the STR molecule, _i.e._ in this protein the bound ligand is not accessible from the outside.
+
+6. You may wish to click on the zoom and slab out icons or use the mouse controls to obtain a more global view of the protein surface.
+
+7. You may select File/Close or File/Exit to close this session or shut down MIFit.
+
+== *11.6 Lesson 6: Model and map display using files from the wwPDB * ==
+
+_Scenario: You are working with computational chemists analyzing a structure from the PDB and wish to assess the reliability of the model against the associated electron density map. _
+
+1. Copy files _2IIV.pdb _and _2iiv-sf.cif _from the _examples _directory of your MIFit installa-tion into a new directory. These are the coordinate and diffraction data files that can be downloaded from the PDB web sites. The diffraction data file is in mmCIF format.
+
+2. Use the MIFit command *File/Open models, data, maps, etc *to load coordinate file _2IIV.pdb _from the directory in which you placed it. The structure will appear in the main canvas. You will notice that the crystal data, displayed next to the crystal icon in the navigation tree, is correct.
+
+3. Use the command *File/Open models, data, maps, etc *to load data file _2iiv-sf.cif_. Although this file did not contain any space group or cell information you will notice that the crystal data displayed next to the corresponding crystal icon is correctly copied from the coordinate file. In the Phase file import dialog box the *Map Type* parameters are standard 2Fo-Fc and Fo-Fc maps. The *Fc* and *Phase* parameters will show that the model will be used to calculate structure factors and phases. Select the 2Fo-Fc map using the check box. After a mouse click on *OK*, some diagnostic information on this calculation will appear in the *Log *pane in the lower left. You will see that the R-factor in this calculation is 0.263, which is a reasonable value. Note that reported R-factors are a function of a number of factors including scaling methods, bulk solvent correction and data limits and rarely correspond exactly to the results of an independent recalculation. Note 1: If the model was refined using TLS treatment of thermal parameters there may be problems in calculating an accurate map since the atomic thermal parameters in the PDB file ATOM/HETATM records may not represent the full values. Note 2: A more refined map, computed using likelihood weighted coefficients and utilizing additional data to model scaling parameters, may be obtained by performing a brief refinement run with CCP4/REFMAC5 program and using the resulting map coefficients as described in the next lesson.
+
+5. With a right mouse button click on the map icon in the *Models List* section of the navigation tree use the *Contour options... *interface to move the *Radius *slider to about 10 in order to set a 10 box for the map volume. You may also wish to set the *Preset Map Styles *option to Blue Map, 1,2,3,4,5 sigma and then uncheck the display of contour levels 2 and 4 to remove some of the contour lines from the map display. You may also wish to use the slider to slightly increase the lowest density value (say, from 50 to 60). Select *OK *and you will see the map view change to these settings.
+
+6. At the top pane of the navigation enter A 9001 in the *Go to residue *text box at the top of the tree control and click on the *GoTo *button. The canvas view should re-center on the ligand (entity '565'). In this case the ligand is very well defined and makes a good fit to the map.
+
+7. You may select *File/Close *or *File/Exit *to close this session or shut down MIFit.
+
+*11.7 Lesson 7: Establishing restraints for structure refinement with CCP4/REFMAC5*
+
+_Scenario: You have completed the preliminary refinement of a new protein structure and now wish to create a dictionary for a small molecule ligand molecule within the structure for use with CCP4/REFMAC5. You have used a chemical drawing program to obtain a SMILES string describing the molecular structure of the ligand. _
+
+1. Copy the file ligand_example.smi from the examples directory of your MIFit installation into a new directory. This file contains a SMILES string describing the chemical structure of the ligand. Note that the Dictionary Editor also supports entry of ligand coordinate information in the form of MOL, PDB and mmCIF formats.
+
+2. Select the command Dictionary/Import Ligand/Smiles. Make sure that the File option is toggled on and use the Browse... button to enter the name of the file containing the SMILES string. Enter a three character entity code (for example, LIG) for the ligand in the ID Code field. Select Ok.
+
+3. You may use mouse button clicks on the Chirals and Planes checkboxes to confirm that the interpretation of the ligand in terms of restraints was correct. You will find that there will be no chiral center restraints and one plane covering the aromatic ring and atoms immediately connected to it. Incorrect restraint assignments may be changed using the pull down menus at the top of the Dictionary Editor window.
+
+4. To write out the refinement dictionary, select the Export to File... button. Enter a file name, select Refmac mmCIF Dictionary File (*.cif) in the Save as type field, and click on OK. Many crystallographers prefer to ignore the relatively weak and often poorly defined torsion restraints from ligand refinement and select No in the resulting Write Torsions? dialog box.
+
+5. Select the Save and Exit button to exit from the Ligand Dictionary Editor.
+
+6. You may select File/Exit if you wish to shut down MIFit. When you exit from MIFit you will be asked if you wish to write the new ligand entry into the MIFit dictionary file so as to retain it for future use.
+
+*11.8 Lesson 8: Automated ligand density docking*
+
+_Scenario: You have an almost completely refined structure and now wish to fit a ligand to residual difference density within the target site. _
+
+1. Copy the files ligand_example.pdb, ligand_example.mtz and ligand_example.smi from the examples directory of your MIFit installation into a new directory. File ligand.pdb is the parent protein model, file ligand_example.mtz contains data from the last cycles of refinement in MTZ format and file ligand_example.smi contains a SMILES string corresponding to the ligand that is to be fit.
+
+2. To establish the ligand dictionary parameters select the Dictionary/Import Ligand/Smiles command. With the File option toggled on, use the Browse... button to select file _li-gand_example.smi _from the dictionary defined in (1). Enter a three character code (for example, LIG) as the ID Code (3 letters) parameter and select *OK*. You should see the Dictionary Editor interface appear.
+
+3. See the previous lesson if you wish to confirm that the ligand restraints were correctly defined. Click on Save and Exit to load the ligand into the dictionary.
+
+4. Next, load the protein model and map using the File/Open models, data, maps, etc... dialog box to locate file ligand_example.pdb and ligand_example.mtz from (1). This lesson only re-quires the difference map using the DELFWT and PHDELFWT columns so for clarity you may wish to deselect the calculation of the normal density map. If multiple maps are loaded then you should click on the required map in the *Models List* section of the navigation tree to make it the fitting target.
+
+5. Use the left (rotate) and right (translate) mouse buttons to make sure that the large density feature near residue A 163 is centered on the cross hairs.
+
+6. To add the ligand to the map select the Model/Add residue command. Use the Residue Type pull down to select the LIG entity. Select End of Model for the Insert Position parameter. Make sure that Screen Center is toggled on for the Put At parameter. You may enter a new chain-id W in the *Chain Id* field. Select OK to add the ligand to the model. It should appear in the center of the canvas.
+
+7. Click on any atom in the ligand and select Fit/Fit Residue. Alternatively you may use the keyboard shortcut f. You should see the ligand turn green, indicating that it is active.
+
+8. Select the Refine/Find Ligand Fit and Conformer command to automatically fit the ligand to the difference density. The ligand docking search will continue until the maximum number of trials is reached or a sufficiently good fit is established. At the completion of this process a good fit of the ligand will usually be obtained. Since this search starts from a randomized starting point, fully reproducible results are not obtained on every run and occasionally the search will result in a plausible misfit.
+
+9. You may sometimes be able to optimize the fit by selecting the Refine/Rigid-Body Refine Current Atoms option. If just one or two torsion groups are incorrect then they may be fixed by clicking on the both defining the torsion group near the move-able atoms and rotating around that bond with the right mouse button.
+
+10. Once you have achieved a satisfactory fit you may accept the fit by clicking on the icon from the toolbar.
+
+11. Ligand fits to density may also be optimized using real-space refinement. Click an atom on the ligand and then select Refine/Refine Residue. The ligand color will change to blue to indicate that it is active for refinement. Hold down the space bar to refine the ligand to convergence. Select Refine/Accept Refine to accept the optimized solution.
+
+12. You may select File/Close or File/Exit to close this session or shut down MIFit.
+
+*11.9 Lesson 9: Molecular replacement with CCP4/MOLREP or CCP4/PHASER*
+
+* *
+
+(This tutorial lesson requires that MIExpert is installed and the system has access to the CCP4 software suite)
+
+_Scenario: You have just obtained data on a new crystal form of a previously solved struc-ture. In contrast to the previously solved structure, which contained a monomer in the crystal asymmetric unit, the new crystal form may contain a dimer in the crystal asymmetric unit. _
+
+1. Copy the files 1A28_mr.pdb and r1a28sf.mtz from the examples directory of your MIFit installation into a new directory. File 1A28_mr.pdb is the initial search model (a monomer) that will be used for the structure determination. File r1a28sf.mtz con-tains structure factor data for the new crystal form.
+
+2. Select Job/Molecular Replacement from the MIFit interface and the Molecular Replacement menu will appear.
+
+3. Use the Browse... button associated with the Working directory parameter to find and load the directory defined in (1).
+
+4. Use the Browse... button associated with the Model (PDB) parameter to load file _1A28_mr.pdb_. Use the Browse... button associated with the *Data *parameter to load file r1a28sf.mtz.
+
+5. Set the *Copies* parameter to 2 since crystal volume analysis suggest that there are two molecules in the crystal asymmetric unit.
+
+6. The options to input a Fixed model, Search multiple models and Match input position should remain unchecked. The Fixed model parameter would be used if a molecular replacement search had been able to establish one component of the crystal structure (perhaps a single molecule from a complex or a domain of a large flexible structure). The Search multiple models parameter (a directory containing many MR search models) can be used in difficult molecular replacement cases to conveniently test a number of different models. The Match input position is useful when MR is applied to structures with same space group and cell as previously solved structures (_i.e._ co-crystals). It will adjust the MR solution by symmetry operations to match the initial search model.
+
+7. The Spacegroup option may remain set to Default to use the space group specified by the diffraction data file header. The Method option may be set to MolRep to use the CCP4/MOLREP program to perform the molecular replacement as this is an easy case.
+
+7. Select OK to launch the calculation. This process takes about 1 minute on a 2GHz laptop.
+
+8. Select the Jobs tab at the bottom of the navigation tree. With a right mouse button click select the bottom entry in the Jobs List and select Show Log File. This action will provide a view of summary information from the molecular replacement process. Note that this command is grayed-out (inaccessible) until the job completes. Completion is indicated by the molecular replacement job icon changing from yellow to green.
+
+9. Use the File/Open models, data, maps, etc... command to load the resulting model molrep_1.pdb from the directory defined in (1). You will notice that two molecules were found by the molecular replacement process (indicated by A and B chains in the *Models List* section of the navigation tree) to fit the diffraction data and that these were automatically packed together.
+
+10. Look at the files in the directory defined in (1). The project_history.txt file logs the automation process. File molrep_1.log is the log file from the molecular replacement run.
+
+11. Although the default behavior of most molecular replacement programs is to exclude solutions in which molecules grossly overlap in the crystal it is always useful to check the packing of the solution.
+
+12. Select Show/Symmetry Atoms/Show symmetry atoms as atoms to generate all symmetry related atoms in the volume displayed in the main MIFit canvas. You may wish to zoom out or move around the model and regenerate symmetry related positions to get a full sense of the crystal arrangement.
+
+13. Since this appears to be a correct solution (R &lt; 0.35 with good packing) you may also wish to view this model in the context of an electron density map. A convenient way to do this is to perform a quick refinement of the current structure and then load the resulting refined likelihood weighted electron density map. The Job/Refinement command is described in the next tutorial lesson.
+
+14. You may select File/Close or File/Exit to close this session or shut down MIFit.
+
+* *
+
+* *
+
+* *
+
+* *
+
+*11.10 Lesson 10: Refinement with CCP4/REFMAC5*
+
+* *
+
+(This tutorial lesson requires that MIExpert is installed and the system has access to the CCP4 software suite)
+
+_Scenario: You have a reasonably good protein model and wish to continue to finalize the structure with further refinement including water-picking and automated error detection. _
+
+1. Copy the files _automation_out.pdb _and _automation_out.mtz _from the _examples _directory of your MIFit installation into a new directory. File _automation_out.pdb _is the model that will be refined. File _automation_out.mtz _is the refinement data in MTZ format.
+
+2. Select the *Job/Refinement *command from the MIFit interface. In the resulting interface use the *Browse... *button to select the directory defined in (1) as the *Working directory*. Use the associated *Browse... *buttons to load _automation_out.pdb _as *Model (PDB) *and _automation_out.mtz _as the *Data *parameter.
+
+3. Leave the *Refinement type *parameter as *Refmac5* and the *B-Factor treatment *as *Isotropic*.
+
+4. The *Weight *parameter controls the relative contributions of the diffraction data and the stereochemical restraints to the refinement process, with a lower value indicating a lower contribution from the data. This is a relatively high resolution structure (which allows larger weights) but is also near the end of the refinement (for which smaller weights are use) so set the weight to 0.1.
+
+5. We are going to include water picking in this refinement so leave the *Number of cycles *parameter as 5. Select the *Water picking cycles *check box* *and set the value to 2. With these settings, three refinement runs will be performed, with water picking between runs (_i.e._ the sequence refinement/water-pick/refinement/water-pick/refinement).
+
+6. Leave the *Optional items *alone and click on the *OK *button. The refinement run will take a few minutes. You can check the progress of the refinement job by selecting the *Jobs* tab from the base of the navigation tree. Completion is indicated by the refinement job icon changing from yellow to green.
+
+7. In a real-life application the next step would be load the output coordinates (_refine_1.pdb_) and phased structure factor data (_refine_1.mtz_) with the *File/Open models, data, maps, etc... *menu command or by using the *Open Results*... menu item available via a right mouse button click on the green refinement job icon under the *Jobs* tab. Although metrics for identifying structure misfits are somewhat fuzzy it is interesting to look through the amino acids in the associated error list file, _refine_1_errors.txt_. These items are also imported in to MIFit via special annotations in the PDB file but this behavior may be suppressed by selecting the *Display* tab at the base of the navigation tree and deselecting the *Annotations/Auto-show imported errors*
+
+9. You may select *File/Close *or *File/Exit *to close this session or shut down MIFit.
+
+*11.11 Lesson 11: Automated co-crystal structure determination*
+
+* *
+
+(This tutorial lesson requires that MIExpert is installed and the system has access to the CCP4 software suite)
+
+_Scenario: You are collecting many data sets on related protein:ligand complexes as part of ligand discovery and optimization project. You wish to obtain pre-refined structures and maps to screen these data as rapidly and as conveniently as possible. _
+
+1. Copy the files automation_start.pdb and automation_start.ref from the examples directory of your MIFit installation into a new directory. File automation_start.pdb is the initial search model that will be used for the structure determination  it is a well refined example of this protein structure. File automation_start.ref is a file of intensity data (in this case, processed using the d*TREK program).
+
+2. Select Job/Cocrystal Solution from the MIFit interface. You will see the Cocrystal Solution menu appear.
+
+3. Click on the Add button in the lower left of the menu and use the browser to locate and load the file of intensity data, automation_start.ref. Note that data merged using any of d*TREK, SCALEPACK or CCP4/SCALA may be used by. If you had multiple data sets corresponding to the same type of crystal then multiple co-crystal solution jobs could be run in series by adding them all into this selection.
+
+4. Use the Browse... button to load the model _automation_start.pdb _as the *Model (pdb) *parameter.
+
+5. An option that is useful when multiple data sets are loaded into the co-crystal solution menu is HTML Summary. This provides a summary table of all the structure determination jobs. To see what this looks like, select the HTML Summary checkbox and use the associated Browse... button to determine the directory in which this file will be deposited - select the directory established in (1) for the data.
+
+6. Deselect the *Reference Data (mtz)* and *Dictionary (cif)* menu items as there is no reference data and the model does not contain any ligands requiring user-defined parameters.
+
+6. A useful option is to set the position on which the display will be centered in the resulting MIFit session file. To do this, check the Viewpoint selection, make sure that Coordinates is selected and enter values 61, 33 and 26 as X, Y and Z parameters. These numbers are the position of the target site on which to center the display in angstroms. If a previous session file were available that specified this view it could have been entered through the Session File (mlw) parameter. Besides setting the viewpoint, this option will also remove waters from the target site area (potentially occupied by a ligand) in order to provide more useable difference map for ligand fitting.
+
+7. Select OK. The job runs molecular replacement and several cycles of refinement and water-picking. On a 2GHz laptop the job takes about 3.5 minutes.
+
+8. Select the Jobs tab near the bottom of the navigation tree and use a right mouse button click on the bottom entry in the Jobs List to select Show Log File. This action will provide a view of summary information from the structure solution process. Note that this command is grayed-out (inaccessible) until the job completes. Completion is indicated by the co-crystal solution job icon changing from yellow to green.
+
+9. Use the File/Open models, data, maps, etc... command to load the session file _bng_milaunch.mlw_. The refined model from this run will be loaded as well as the standard likelihood-weighted electron density map and a likelihood weighted difference map. In this case default MIFit contour levels and colors are used but if the *Session File (mlw)* option had been used the display would have assumed the values from that file. You may wish to right-click on the map icons in the tree on the left and select *Show/Hide *to hide one or other of these maps. Looking at these maps you will conclude that there are several ordered water molecules but no bound ligand. This process allowed you to evaluate this data set with minimum of work. (Alternatively you may load the final model and mtz data file as described in the previous lesson on refinement).
+
+10. Look at the directory specified in (1). Files specified by root refine_3 correspond to the last refinement run. File refine_3_errors.txt lists amino acids that may be in error (as indicated by abnormal geometries or a significant degree of mismatch to the elec-tron density). Note that the job history and this error list are linked to the HTML summary file.
+
+11. You may select File/Close or File/Exit to close this session or shut down MIFit.
+
+*11.12 Lesson 12: Superimposing ligands from multiple related structures*
+
+(This tutorial lesson requires that MIExpert is installed and the system has access to the CCP4 software suite)
+
+_Scenario: You have solved the structures of six HIV protease:ligand complexes and wish to display and make an accurate comparison of the binding positions of the ligands in each of them. _
+
+1. Copy files 1d4h.pdb, 1d4i.pdb, 1d4y.pdb, 1eby.pdb, 1ebw.pdb, 1d4j.pdb from the examples directory of your MIFit installation into a new directory. Each of these files contains the HIV protein with a different ligand. This step is required because the superposition application will superimpose all PDB files from within a specified directory.
+
+2. Create a working directory (different from the directory established in (1)) into which files containing the superimposed ligands will be placed.
+
+3. Use the MIFit command File/Open models, data, maps, etc... to load coordinate file 1d4h.pdb from the directory in which you placed it. The structure will appear in the main canvas.
+
+4. In the *Models List *section of the navigation tree select segment find and select entity BEH 501. This action is performed so as to center the display on the bound ligand BEH in the target structure but does not affect the superposition calculation.
+
+5. Select the *Job/Cocrystal Superposition* menu.
+
+6. Set Working Directory to the name of the directory specified in (2) above. Set Structure Directory to the name of the directory specified in (1), in which you stored the set of six coordinate files. Set Target File to structure _1d4h.pdb_.
+
+7. Set the X, Y and Z parameters in the *Target Coordinates *field to a point 14, 23, 5. These are coordinates in angstroms that are close to atom C01, a central atom in the ligand that is used to define the binding site volume for the structure superposition. Select *OK*.
+
+8. After a few seconds a coordinate file, _allligands.pdb_, containing all superimposed ligands will appear in the working directory. These ligands were identified and superimposed using the ligand binding site Cα atoms from the target structure. You may load this file using the *File/Open models, data, maps, etc... *command.
+
+9. The superimposed ligands in this file are identified by separate chains. If you wish, you can select individual ligand _Segmt_ entries from the *Models List* in the navigation tree with a right mouse button click and use the *Color* command to highlight individual ligands.
+
+10. You may select File/Close or File/Exit to close this session or shut down MIFit.
+
+*Appendix A: Session file scripting language *
+
+* *
+
+MIFit may be started with a session or script file as a command line parameter. These files are recognized by the extension _.mlw_. This capability is mostly used to allow other applications control MIFit. For example, the automated structure solution application in MIExpert has an option to launch MIFit after structure solution calculations are completed. However, a user may also easily create a script using a text editor.
+
+The MIFit script commands are case insensitive and each command should be given on a separate line. Command key words are in *bold *and arguments are in _italics_. All commands are of the form. Some commands require a prerequisite, which will be noted. The character # marks the remainder of a line as comments.
+
+*command *_val1 val2_
+
+# - comment
+
+*A.1 Model Commands *
+
+*loadpdb *_n pathname_
+
+Load the PDB coordinate file in pathname and number it _n_. Subsequent com-mands can switch between multiple maps by specifying _n_.
+
+Prerequisites: none
+
+*atomlabel *_m resid atomid chained_
+
+Label an atom. The atom is labeled with the default label as if it was picked in in-teractive mode.
+
+_m _ model number starting from 1. Use 1 if there is just one model.
+
+_resid _ the name of the residue, e.g. 101.
+
+_atomid _ the name of the atom, e.g. CA.
+
+_chainid _ the chain identifier, e.g. A. If _chainid _is a space use a *
+
+Example: atomlabel 1 100 CA *
+
+Prerequisites: at least one model loaded.
+
+*A.2 View Commands *
+
+*rotx *_val_
+
+Rotate about the x world axis (horizontal) _val _degrees.
+
+Prerequisites: an open window
+
+*roty *_val_
+
+Rotate about the y world axis (vertical) _val _degrees
+
+Prerequisites: an open window
+
+*rotz *_val _
+
+Rotate about the z world axis (out of screen) _val _degrees
+
+Prerequisites: an open window
+
+*backclip *_val_
+
+Set the back clipping plane to _val_.
+
+Prerequisites: an open window
+
+*frontclip *_val_
+
+Set the front clipping plane to _val_.
+
+Prerequisites: an open window
+
+*zoom *_val_
+
+Set the zoom level to _val_.
+
+Prerequisites: an open window
+
+*perspective *_val_
+
+Set the perspective level to _val_. 0 is no perspective, or orthonormal display.
+
+Prerequisites: an open window
+
+*stereo *_on|off v1 v2 _
+
+Set the side-by-side stereo to _on _or _off_. _v1 _is the separation in pixels of the two image centers, and _v2 _is the stereo_angle is the angle in degrees (between 3 and 8 degrees are useful values. Use a positive value for wall-eye and a negative value for cross-eye stereo). _v1 _and _v2 _are not needed for the _off _command.
+
+Prerequisites: an open window
+
+*translation *_x y z _
+
+Set the center to the coordinate (_x,y,z_) in ngstroms.
+
+Prerequisites: an open window
+
+*rotation *_v11 v12 v13 v21 v22 v23 v31 v32 v33 _
+
+Set the rotation to the 3x3 matrix specified in _v11v33_.
+
+Example: rotation 1 0 0 0 1 0 0 0 1
+
+Prerequisites: an open window
+
+*A.3 Map Commands *
+
+*loadmap *_n pathname _
+
+Load the map in _pathname _and number it _n_. Subsequent commands can switch between multiple maps by specifying _n_, specifically with the command maptocont _n_.
+
+Prerequisites: none
+
+*loadmapphase *_n pathname _
+
+Load the phases in the _pathname _and number it _n_. Subsequent commands can switch between multiple maps by specifying _n_, specifically with the command maptocont _n_. A density map will be FFTd from the phases directly after loading. Note that, at present, data in the .phs file format are not properly loaded from session files.
+
+Prerequisites: none
+
+*color *_c _
+
+Set the current color to the _c_. Subsequent coloring commands will use this color.
+
+Prerequisites: none
+
+*maptocont *_n _
+
+Set the map to be contoured. Subsequent contouring commands will refer to the map loaded with this number (see *loadmap *and *loadmapphase*).
+
+Prerequisites: a loaded map with the same number
+
+*contourmap *_n _
+
+Contour the map number _n _with the current values.
+
+Prerequisites: other contouring commands and a loaded map at _n _
+
+*maplinewidth *_v _
+
+The line width of map lines in pixels. Changes only the current map.
+
+Prerequisites: loaded map
+
+*contourcolor *_v _
+
+Set the color of contour level _v _to *color *c (see *color*).
+
+Prerequisites: a loaded map
+
+*contourleveldefault *_l1 l2 l3 l4 l5 _
+
+Set the map contour level values. Must specify 5 levels. Note: *contourlevels *command turns individual levels on and off.
+
+Example: contourleveldefault 50 100 150 200 250
+
+Prerequisites: a loaded map
+
+*contourlevels *_d1 d2 d3 d4 d5 _
+
+Turn on and off individual contour levels. A 0 value turns off a level and a non-zero turns them on.
+
+Example: contourlevels 1 0 0 0 1
+
+Turns on only the first and fifth levels.
+
+Prerequisites: loaded map
+
+*contourradius *_v _
+
+Set the radius (half-width) of the area to be contoured to _v_.
+
+Prerequisites: a loaded map
+
+*fftapply *
+
+Forces an FFT call to calculate density values. Used after changing the map di-mensions with the commands coefficients, *fttnx*, *fftny *and/or *fftnz*.
+
+Prerequisites: a loaded map with phases
+
+*coefficient *_s _
+
+Set the map coefficients for the FFT to one of "Fo","Fc","2Fo-Fc","Fo-Fc","Fo*fom","3Fo-2Fc","5Fo-3Fc","2mFo-DFc" or "Fo-DFc". Case is not important.
+
+Prerequisites: a loaded map with phases
+
+*resmin *_dmin _
+
+Set the minimum resolution (outer resolution) of the map to _dmin_.
+
+Prerequisites: a loaded map with phases
+
+*resmax *_dmax _
+
+Set the minimum resolution (outer resolution) of the map to _dmax_.
+
+Prerequisites: a loaded map with phases
+
+*unitcell *_a b c alpha beta gamma _
+
+Set the unit cell to _a b c alpha beta gamma_.
+
+Prerequisites: a loaded map
+
+*spacegroupno *_n _
+
+Set the spacegroup number to _n_. (See International Tables for spacegroup numbering. This same information can also be found in the file $MIFITHOME/data/symlib.)
+
+Example: spacegroupno 19
+
+Sets the spacegroup to P212121.
+
+Prerequisites: a loaded map with phases
+
+*crystal *_name _
+
+Load the crystal name.
+
+Prerequisites: Crystal must be previously specified with File/Crystal with MIFit
+
+*name *_name _
+
+Name the map _name _identification to the user.
+
+Prerequisites: a loaded map
+
+*fftnx *_n _
+
+Set the number of intervals in the x direction to _n_.
+
+Note if the number is not a valid value (i.e. factorable by 2,3,5,7, it will be set to the next highest valid value).
+
+Prerequisites: a loaded map with phases
+
+*fftny *_n _
+
+Set the number of intervals in the y direction to _n_.
+
+Note if the number is not a valid value (i.e. factorable by 2,3,5,7, it will be set to the next highest valid value).
+
+Prerequisites: a loaded map with phases
+
+*fftnz *_n _
+
+Set the number of intervals in the z direction to _n_.
+
+Note if the number is not a valid value (i.e. factorable by 2,3,5,7, it will be set to the next highest valid value).
+
+Prerequisites: a loaded map with phases
+
+*A.4 Miscellaneous Commands *
+
+*silentmode *
+
+This prevents dialog boxes from popping up during command processing.
+
+Prerequisite: None
+
+*clear *
+
+Clears out all models, maps and vu objects.
+
+Prerequisite: None
+
+*directory *_dir _
+
+Sets the current working directory to _dir_. Handy to simplify file names and to specify where temp files will be written.
+
+Prerequisite: None
