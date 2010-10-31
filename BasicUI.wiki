@@ -1,6 +1,8 @@
 #summary Basics of the MIFit User Interface
 
-= Launching MIFit =
+<wiki:toc max_depth="2" />
+
+== Launching MIFit ==
 
 http://mifit.googlecode.com/svn/wiki/images/image002.jpg
 
@@ -18,13 +20,13 @@ With the Windows operating system, individual document windows may be cascaded, 
 
 On the Linux operating system, MIFit stores user and environment specific parameters in a file called _.MIFit_ in the users home directory. If this file does not exist it is created the first time that MIFit is run. Once established, the _.MIFit_ file is read whenever MIFit is started. This file is not intended to be edited by users and all stored values can be changed through the use of MIFit.
 
-*1.2 User preferences in MIFit*
+== User preferences in MIFit ==
 
 The *File/Preferences *menu is used to set information that will be used in every MIFit session.
 
 The preference controls are separated into menus for *General*, *Environment*, *Map contours *and* Custom Jobs*.
 
-General preferences
+=== General preferences===
 
 http://mifit.googlecode.com/svn/wiki/images/image004.jpg
 
@@ -46,7 +48,7 @@ The MIFit navigation tree displays the structure broken into chain identifiers. 
 
 Clicking on *OK *saves the user parameters displayed within this interface.
 
-Environment preferences
+===Environment preferences===
 
 http://mifit.googlecode.com/svn/wiki/images/image006.jpg
 
@@ -72,7 +74,7 @@ MIFit maintains a series of checkpoint coordinate files so that the user may rec
 
 Clicking on *OK *saves the user parameters displayed within this interface.
 
-Map contours preferences
+===Map contours preferences===
 
 http://mifit.googlecode.com/svn/wiki/images/image008.jpg
 
@@ -92,7 +94,7 @@ The *Map line width *parameter may be used to change the line width used in the 
 
 Clicking on *OK *saves the user parameters displayed within this interface.
 
-Custom jobs preferences
+===Custom jobs preferences===
 
 http://mifit.googlecode.com/svn/wiki/images/image010.jpg
 
@@ -100,7 +102,7 @@ Figure 1.5 The custom jobs preferences menu
 
 This interface contains a list of items from the *Jobs* menu after the MIExpert package is installed. It may be used to remove specific menus from the list of available choices.
 
-*1.4 Opening model, diffraction data and map files*
+== Opening model, diffraction data and map files ==
 
 Files may be loaded in to MIFit using the *File/Open models, data, maps, etc *command (keyboard shortcut *Ctrl+O*). This command may be used to load atomic model data from session (_.mlw_) or coordinate (_.pdb_) files. Files associated with atomic models that have been the subject of recent work are kept in a history list displayed in the lower part *File *menu. A double mouse click on file names in this list provides convenient access to these models.
 
@@ -108,17 +110,17 @@ A group of files may be selected and opened in one step by holding down Ctrl or 
 
 Diffraction data files and pre-computed electron density maps in the CCP4 or XtalView formats are may also be loaded using the *File/Open models, data, maps, etc *command. These types of data may be loaded simultaneously with coordinate files. For example, you may wish to load both a new model and map data coefficients resulting from a refinement run. Diffraction data and maps are discussed in Chapter 2.
 
-*1.5 Creating a new document*
+== Creating a new document ==
 
 Normally a user will simply wish to load pre-existing model or map data into MIFit. However, a new, empty document may be created with the *File/New *command (keyboard short-cut *Ctrl+N*). The *File/Open models, data, maps, etc *may then be used to add content to this document. To open files in to a different document, use the *File/Open into new document *command.
 
 Opening documents changes the appearance of both the menu bar and the toolbar to provide access to commands for displaying and manipulating structure data. Opening an existing document or importing structure data into a document will immediately fill the model, canvas and navigator windows with document-related content.
 
-*1.6 Introduction to session files*
+== Introduction to session files ==
 
 MIFit may be launched with or without command line parameters. The command line parameter most commonly supplied is the name of a MIFit session file, indicated by file extension _.mlw_. Session files contain information about individual projects and may be saved from the MIFit interface. A session file may be given to another person in your organization to review structure results. When a user opens the session file the exact view of the structure that was saved will be displayed, including any annotations that were provided. Since session files support access to diffraction data it is also possible to use them to provide non-crystallographers convenient access to density map information.
 
-*1.7 Crystal information*
+== Crystal information ==
 
 The crystal data (cell dimensions and space group information) for an atomic model is automatically read from the input coordinate file, _i.e._ the information is taken from the CRYST1 record in the PDB format input file. This information is displayed in the navigation tree next to a small crystal icon beneath the amino acid chain segment information for the model.
 
@@ -130,13 +132,13 @@ If the crystal information is known but absent from the input files a special cr
 
 Alternatively, when it is only necessary to select crystal data from a pre-existing crystal file, a right mouse button click on the crystal icon in the navigation tree provides an *Edit *command. With the *Select a crystal *radio button on, it is possible to select a crystal file from the scrollable list. Using the *Specify parameters *radio button allows the user to edit the selected crystal. The *OK *button sets and saves the current parameters.
 
-*1.8 Default atom colors*
+== Default atom colors ==
 
 The *File/Define Atom Colors *command may be used to redefine atom colors according to atom names. It will not normally be necessary to change these settings from the default values.
 
 Atoms may also be colored according to the values provided in the B-factor column in the input coordinate file. The color definitions may be set using the *File/B-Value Colors Ranges *command, which provides a dialog window for setting the color values
 
-*1.9 Stereochemical dictionaries*
+== Stereochemical dictionaries ==
 
 When MIFit is launched a dictionary file that contains stereochemical information on amino acids and other entities commonly found in protein crystal structures is loaded. This dictionary is used for model fitting and structure optimization within MIFit.
 
@@ -146,13 +148,13 @@ The current dictionary may also be changed, perhaps just for a single modeling s
 
 The task of adding a new ligand to a dictionary, including the ability to check and edit the refinement restraints is handled through Dictionary Editor with the *Dictionary/Import Ligand *command.
 
-*1.10 Saving MIFit session files*
+== Saving MIFit session files ==
 
 A MFit session file _(*.mlw_), corresponding to the current state of the model and display with default name may be saved using the *File/Save Session* command. A session file with a new name may be saved by using the *File/Save Session As *command. Note that MIFit contains a safety feature so that if an attempt is made to close a document that was modified but not saved a warning prompt appears. This feature avoids losing the results of a model-building session by forgetting to save the work to a file.
 
 A separate command (*File/Export PDB...*) is used if, rather than a session file, you wish to save the current active model coordinates to the PDB file format.
 
-*1.11 Closing a file and closing MIFit*
+== Closing a file and closing MIFit ==
 
 A selected structure document may be closed using the *File/Close *command. Note that MIFit saves structure information in session files so that even if you began your MIFit session by importing a coordinate file in PDB format, this information will also be saved as a session file.
 
