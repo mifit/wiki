@@ -1,13 +1,11 @@
-#summary Tutorial Lesson: Chain tracing
-
-= Tutorial Lesson: Chain tracing =
+# Tutorial Lesson: Chain tracing
 
 
-_Scenario: You have just obtained an electron density map and wish to build a model into the electron density. (Note: automated model-fitting programs are now usually used to build initial models into experimentally phased map. In other cases, molecular replacement methods are used to obtain an approximate model. In both these situations the manual building process is often limited to tracing loops and model correction.) _
+_Scenario: You have just obtained an electron density map and wish to build a model into the electron density. (Note: automated model-fitting programs are now usually used to build initial models into experimentally phased map. In other cases, molecular replacement methods are used to obtain an approximate model. In both these situations the manual building process is often limited to tracing loops and model correction.)_
 
-1. Copy files start_trace.pdb and automation_out.mtz from the examples directory of your MIFit installation into a new directory. The file start_trace.pdb just contains two Cα marker atoms (MRK residues) and is used to initiate the model-building process and guide the tutorial. The file automation_out.mtz contains phased structure factor data that will be used to compute an electron density map into which the model will be built.
+1. Copy files start\_trace.pdb and automation\_out.mtz from the examples directory of your MIFit installation into a new directory. The file start\_trace.pdb just contains two Cα marker atoms (MRK residues) and is used to initiate the model-building process and guide the tutorial. The file automation\_out.mtz contains phased structure factor data that will be used to compute an electron density map into which the model will be built.
 
-2. Use the command File/Open models, data, maps, etc... to load the coordinate file _start_trace.pdb _and data file automation_out.mtz from the directory in which you placed it. In the phase file import dialog, deselect loading the difference map (map coefficients DELFWT and PHDELFWT) and click on *OK*. The two marker structure and map should appear in the main canvas.
+2. Use the command File/Open models, data, maps, etc... to load the coordinate file _start\_trace.pdb_and data file automation\_out.mtz from the directory in which you placed it. In the phase file import dialog, deselect loading the difference map (map coefficients DELFWT and PHDELFWT) and click on **OK**. The two marker structure and map should appear in the main canvas.
 
 3. Make sure that the region of the map has appropriate volume and contour levels for model building. With the right mouse button click on the map icon in the Models List section of the navigation tree and select the Contour options... command. In the resulting dialog box, move the Radius slider to about 10 in order to set a 10 box for the map volume. You may also wish to set the Preset Map Styles option to Blue Map, 1,2,3,4,5 sigma and then uncheck the display of contour levels 2 and 4 to remove some of the contour lines from the map display. Select OK and you will see the map view change to these settings.
 

@@ -1,10 +1,8 @@
-#summary Tutorial Lesson: Establishing restraints for structure refinement with CCP4/REFMAC5
+# Tutorial Lesson: Establishing restraints for structure refinement with CCP4/REFMAC5
 
-= Tutorial Lesson: Establishing restraints for structure refinement with CCP4/REFMAC5 =
+_Scenario: You have completed the preliminary refinement of a new protein structure and now wish to create a dictionary for a small molecule ligand molecule within the structure for use with CCP4/REFMAC5. You have used a chemical drawing program to obtain a SMILES string describing the molecular structure of the ligand._
 
-_Scenario: You have completed the preliminary refinement of a new protein structure and now wish to create a dictionary for a small molecule ligand molecule within the structure for use with CCP4/REFMAC5. You have used a chemical drawing program to obtain a SMILES string describing the molecular structure of the ligand. _
-
-1. Copy the file ligand_example.smi from the examples directory of your MIFit installation into a new directory. This file contains a SMILES string describing the chemical structure of the ligand. Note that the Dictionary Editor also supports entry of ligand coordinate information in the form of MOL, PDB and mmCIF formats.
+1. Copy the file ligand\_example.smi from the examples directory of your MIFit installation into a new directory. This file contains a SMILES string describing the chemical structure of the ligand. Note that the Dictionary Editor also supports entry of ligand coordinate information in the form of MOL, PDB and mmCIF formats.
 
 2. Select the command Dictionary/Import Ligand/Smiles. Make sure that the File option is toggled on and use the Browse... button to enter the name of the file containing the SMILES string. Enter a three character entity code (for example, LIG) for the ligand in the ID Code field. Select Ok.
 

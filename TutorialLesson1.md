@@ -1,10 +1,8 @@
-#summary Tutorial Lesson: Basic manipulation of the model display
+# Tutorial Lesson:  Basic manipulation of the model display
 
-= Tutorial Lesson:  Basic manipulation of the model display =
+_This lesson introduces some of the mechanisms for controlling the view and representation of an atomic model._
 
-_This lesson introduces some of the mechanisms for controlling the view and representation of an atomic model. _
-
-1. Copy the file automation_out.pdb from the examples directory of your MIFit installation into a new directory.
+1. Copy the file automation\_out.pdb from the examples directory of your MIFit installation into a new directory.
 
 2. Select the File/Open models, data, maps, etc... command to load a coordinate file in PDB format. Use the Look in pull down menu in the resulting browser window to locate the file in the directory used for (1). Load the file (by a mouse clicking on it) and select Open. You should see the protein model appear in the main canvas window.
 

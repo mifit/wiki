@@ -1,5 +1,0 @@
-#summary Source code repository access
-
-= Source code repository =
-
-http://gitorious.org/mifit
